@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bilal's portfolio.com</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon"
+        href="https://cdn.dribbble.com/userupload/31364034/file/original-c9982a422ccd062f045fc53845f0cba5.png?resize=400x0"
+        type="image/x-icon">
+</head>
+
+<body>
+    <!-- Particle Background -->
+    <div id="particles"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Frontend Developer</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1><span class="gradient-text">CREATIVE DEVELOPER</span></h1>
+            <h2>Turning Ideas Into Digital Reality</h2>
+            <p>I craft innovative digital experiences through code, design, and creativity. Specializing in web
+                development, UI/UX design, and interactive animations.</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn">View My Work</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="reveal">
+        <h2 class="section-title gradient-text">About Me</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <div class="image-wrapper">
+                    <img src="./img/img.png" alt="Profile">
+                </div>
+            </div>
+            <div class="about-text">
+                <h3>Muhammad Bilal <br> I'm a Frontend Developer</h3>
+                <p>With experience in creating stunning web applications and digital experiences. I
+                    combine technical expertise with creative vision to build products that not only work flawlessly
+                    but
+                    also captivate users.</p>
+                <p>My journey in tech has been driven by curiosity and a constant desire to learn and innovate. I
+                    believe in the power of clean code, beautiful design, and seamless user experiences.</p>
+                <div class="skills">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">HTML/CSS</span>
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Animation</span>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="reveal">
+        <h2 class="section-title gradient-text">Featured Projects</h2>
+        <div class="projects-grid">
+            <a href="https://github.com/mbilal71-hub/E-Commerce-Web" target="_blank" class="project-card"
+                style="text-decoration: none;">
+                <div class="project-image">
+                    <img src="./img/e commerce.png" alt="E-Commerce Platform"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="project-content">
+                    <h3>E-Commerce Platform</h3>
+                    <p>A modern, fully-featured e-commerce solution with real-time inventory management and seamless
+                        checkout experience.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">TailwindCSS</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/mbilal71-hub/Resturant-Web-Project" target="_blank" class="project-card"
+                style="text-decoration: none;">
+                <div class="project-image">
+                    <img src="./img/cafe.png" alt="Cafeteria Web" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="project-content">
+                    <h3>Resturant Web</h3>
+                    <p>Designed a responsive cafeteria website showcasing menu items, pricing, and basic user
+                        interaction using modern frontend technologies
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/mbilal71-hub/Amazon-Clone" target="_blank" class="project-card"
+                style="text-decoration: none;">
+                <div class="project-image">
+                    <img src="./img/amazon.png" alt="Amazon Clone Web"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="project-content">
+                    <h3>Amazon Clone Web</h3>
+                    <p>Developed a responsive Amazon-style e-commerce UI using HTML, CSS, focusing on layout structure,
+                        product grids, navigation bar, and user-friendly design.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="reveal">
+        <h2 class="section-title gradient-text">Let's Connect</h2>
+        <div class="contact-content">
+            <p>Have a project in mind or just want to chat? I'd love to hear from you. Drop me a message and let's
+                create something amazing together!</p>
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn">Send via Email</button>
+                    <button type="button" class="btn btn-secondary" id="whatsappBtn">Send via WhatsApp</button>
+                </div>
+                <div id="formStatus" class="form-status"></div>
+            </form>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/muhammad-bilal71/" target="_blank" class="social-link"><i
+                        class="fa-brands fa-square-linkedin"></i></a>
+                <a href="https://github.com/mbilal71-hub" target="_blank" class="social-link"><i
+                        class="fa-brands fa-github"></i></a>
+                <a href="mailto:mb16837157@gmail.com" class="social-link"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://wa.me/923088346800" target="_blank" class="social-link"><i
+                        class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MuhammadBilal. All rights reserved. | Designed & Developed with 💙</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
