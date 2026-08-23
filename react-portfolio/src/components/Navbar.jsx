@@ -1,177 +1,175 @@
-import { useEffect, useRef, useState } from 'react';
-import {
-  MdHome,
-  MdPerson,
-  MdBuild,
-  MdFolder,
-  MdWork,
-  MdCode,
-  MdEmail,
-} from 'react-icons/md';
+import { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import portfolioData from '../data/portfolioData';
 
+// Nav items with SVG icon paths
 const navItems = [
-  { id: 'home', label: 'Home', icon: MdHome },
-  { id: 'about', label: 'About', icon: MdPerson },
-  { id: 'services', label: 'Services', icon: MdBuild },
-  { id: 'projects', label: 'Projects', icon: MdFolder },
-  { id: 'experience', label: 'Work', icon: MdWork },
-  { id: 'technologies', label: 'Tech', icon: MdCode },
-  { id: 'contact', label: 'Contact', icon: MdEmail },
+  {
+    id: 'home', label: 'Home',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'about', label: 'About',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'services', label: 'Services',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/>
+        <rect x="2" y="15" width="6" height="6" rx="1"/><rect x="16" y="15" width="6" height="6" rx="1"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'projects', label: 'Projects',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'experience', label: 'Experience',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'contact', label: 'Contact',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    ),
+  },
 ];
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState('home');
-  const [visible, setVisible] = useState(true);
-  const lastScrollY = useRef(0);
+  const [active, setActive] = useState('home');
+  const [visible, setVisible] = useState(false);
+  const pillRef = useRef(null);
 
+  // Entrance animation
   useEffect(() => {
-    const sections = navItems.map(({ id }) => document.getElementById(id)).filter(Boolean);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(true);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setVisible(true);
+      gsap.fromTo(
+        pillRef.current,
+        { y: 40, opacity: 0, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.65, ease: 'back.out(1.5)' }
+      );
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
 
+  // IntersectionObserver — section spy
+  useEffect(() => {
+    const sections = navItems.map((n) => document.getElementById(n.id)).filter(Boolean);
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
+          if (entry.isIntersecting) setActive(entry.target.id);
         });
       },
-      { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
     );
-
-    sections.forEach((section) => observer.observe(section));
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setVisible(currentScrollY < 100 || currentScrollY < lastScrollY.current);
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-      window.removeEventListener('scroll', handleScroll);
-    };
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
   }, []);
 
-  const handleNavClick = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setActive(id);
   };
 
   return (
-    <nav
-      className="navbar"
-      style={{
-        transform: visible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(120px)',
-        opacity: visible ? 1 : 0,
-      }}
-      aria-label="Main navigation"
-    >
-      {navItems.map(({ id, label, icon: Icon }) => (
-        <button
-          key={id}
-          className={`nav-item ${activeSection === id ? 'nav-item--active' : ''}`}
-          onClick={() => handleNavClick(id)}
-          aria-label={`Navigate to ${label}`}
-          title={label}
+    <>
+      {/* Logo pill top-right on desktop */}
+      <div
+        className="fixed top-5 right-6 z-[9901] hidden lg:flex items-center gap-2.5 px-4 py-2 rounded-full"
+        style={{
+          background: 'rgba(18,18,18,0.88)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255,255,255,0.09)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+        }}
+      >
+        <div
+          className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black"
+          style={{ background: 'var(--accent)', color: '#0a0a0a' }}
         >
-          <Icon className="nav-icon" />
-          <span className="nav-label">{label}</span>
-        </button>
-      ))}
+          {portfolioData.initials}
+        </div>
+        <span className="text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>
+          {portfolioData.tagline}
+        </span>
+      </div>
 
-      <style>{`
-        .navbar {
-          position: fixed;
-          bottom: 1.5rem;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          align-items: center;
-          gap: 0.15rem;
-          background: rgba(15, 20, 25, 0.85);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(230, 126, 80, 0.2);
-          border-radius: 9999px;
-          padding: 0.5rem 0.75rem;
-          z-index: 9999;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03);
-        }
-
-        .nav-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.15rem;
-          padding: 0.5rem 0.85rem;
-          border-radius: 9999px;
-          color: #64748B;
-          transition: all 0.25s ease;
-          cursor: pointer;
-          border: none;
-          background: none;
-          font-family: inherit;
-          min-width: 44px;
-          min-height: 44px;
-          justify-content: center;
-        }
-
-        .nav-item:hover {
-          color: #E67E50;
-          background: rgba(230, 126, 80, 0.1);
-        }
-
-        .nav-item--active {
-          color: #E67E50;
-          background: rgba(230, 126, 80, 0.15);
-        }
-
-        .nav-icon {
-          font-size: 1.15rem;
-          transition: transform 0.2s ease;
-          flex-shrink: 0;
-        }
-
-        .nav-item:hover .nav-icon {
-          transform: translateY(-1px);
-        }
-
-        .nav-label {
-          font-size: 0.6rem;
-          font-weight: 600;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          line-height: 1;
-        }
-
-        @media (max-width: 600px) {
-          .navbar {
-            padding: 0.4rem 0.4rem;
-            gap: 0;
-            bottom: 1rem;
-          }
-          .nav-item {
-            padding: 0.5rem 0.6rem;
-          }
-          .nav-label {
-            display: none;
-          }
-          .nav-icon {
-            font-size: 1.25rem;
-          }
-        }
-
-        @media (max-width: 380px) {
-          .nav-item {
-            padding: 0.45rem 0.5rem;
-          }
-        }
-      `}</style>
-    </nav>
+      {/* Bottom floating pill navbar */}
+      <nav
+        ref={pillRef}
+        className="navbar-pill"
+        aria-label="Main navigation"
+        style={{ opacity: visible ? undefined : 0 }}
+      >
+        {navItems.map(({ id, label, icon }) => {
+          const isActive = active === id;
+          return (
+            <button
+              key={id}
+              id={`nav-${id}`}
+              aria-label={label}
+              title={label}
+              onClick={() => scrollTo(id)}
+              className="relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-full transition-all duration-300 group"
+              style={{
+                background: isActive ? 'var(--accent-dim)' : 'transparent',
+                border: isActive ? '1px solid var(--accent-border)' : '1px solid transparent',
+                color: isActive ? 'var(--accent)' : 'var(--text-muted)',
+              }}
+            >
+              <span
+                className="transition-transform duration-300 group-hover:scale-110"
+                style={{ color: isActive ? 'var(--accent)' : 'var(--text-muted)' }}
+              >
+                {icon}
+              </span>
+              <span
+                className="text-[0.52rem] font-semibold tracking-wide hidden sm:block"
+                style={{ color: isActive ? 'var(--accent)' : 'var(--text-muted)' }}
+              >
+                {label}
+              </span>
+              {/* Active dot indicator */}
+              {isActive && (
+                <span
+                  className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
+                  style={{ background: 'var(--accent)' }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </nav>
+    </>
   );
 }

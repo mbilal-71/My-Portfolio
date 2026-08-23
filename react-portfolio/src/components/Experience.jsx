@@ -1,199 +1,141 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MdOutlineWork, MdOutlineCalendarToday, MdArrowOutward } from 'react-icons/md';
 import { experience } from '../data/experience';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Experience() {
-  const sectionRef = useRef(null);
+  const ref = useRef(null);
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const ctx = gsap.context(() => {
-      gsap.from('.exp-header', {
+      gsap.from('.exp-hdr', {
         opacity: 0, y: 30, duration: 0.7, ease: 'power3.out',
-        scrollTrigger: { trigger: '.exp-header', start: 'top 85%' },
+        scrollTrigger: { trigger: '.exp-hdr', start: 'top 87%' },
       });
-
       gsap.from('.exp-card', {
-        opacity: 0, x: -40, duration: 0.7, stagger: 0.15, ease: 'power3.out',
-        scrollTrigger: { trigger: '.exp-timeline', start: 'top 82%' },
+        opacity: 0, x: -30, duration: 0.65, ease: 'power3.out',
+        scrollTrigger: { trigger: '.exp-card', start: 'top 84%' },
       });
-    }, sectionRef);
-
+    }, ref);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="experience" className="section" ref={sectionRef}>
-      <div className="section-divider" />
-      <div className="container" style={{ paddingTop: '7rem' }}>
-        <div className="exp-header section-header">
-          <p className="section-label">Where I Worked</p>
+    <section
+      id="experience"
+      ref={ref}
+      className="py-20 lg:py-28"
+      style={{ background: 'var(--bg-secondary)' }}
+    >
+      <div className="section-container">
+
+        {/* Header */}
+        <div className="exp-hdr mb-14">
+          <p className="section-label mb-3">Career</p>
           <h2 className="section-heading">
-            Work <span className="accent">Experience</span>
+            Where I've <span className="accent">worked</span>
           </h2>
-          <p className="section-desc" style={{ marginTop: '1rem' }}>
-            My professional journey — hands-on experience building real-world applications.
-          </p>
         </div>
 
-        <div className="exp-timeline">
-          {experience.map((item) => (
-            <div key={item.id} className="exp-card card">
-              <div className="exp-card-header">
-                <div className="exp-icon-wrap">
-                  <MdOutlineWork />
+        {/* Timeline */}
+        <div className="relative flex flex-col gap-6">
+
+          {experience.map((exp) => (
+            <div key={exp.id} className="flex gap-6 items-start">
+
+              {/* Timeline indicator */}
+              <div className="flex flex-col items-center flex-shrink-0 mt-1" style={{ width: 28 }}>
+                {/* Outer ring */}
+                <div
+                  className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{
+                    border: '2px solid var(--accent)',
+                    background: 'var(--bg-primary)',
+                  }}
+                >
+                  {/* Inner dot */}
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ background: 'var(--accent)' }}
+                  />
                 </div>
-                <div className="exp-header-text">
-                  <h3 className="exp-role">{item.role}</h3>
-                  <p className="exp-company">{item.company}</p>
+                {/* Vertical line */}
+                <div
+                  className="w-px flex-1 mt-2"
+                  style={{ background: 'var(--border-subtle)', minHeight: 40 }}
+                />
+              </div>
+
+              {/* Card */}
+              <div
+                className="exp-card card flex-1"
+                style={{ marginBottom: '0.5rem' }}
+              >
+                {/* Card header */}
+                <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
+                  <div>
+                    <h3
+                      className="text-base font-bold mb-0.5"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {exp.role}
+                    </h3>
+                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      {exp.company}
+                    </p>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <span
+                      className="text-xs font-medium px-3 py-1 rounded-full"
+                      style={{
+                        background: 'rgba(249,202,28,0.08)',
+                        border: '1px solid rgba(249,202,28,0.2)',
+                        color: 'var(--accent)',
+                      }}
+                    >
+                      {exp.duration}
+                    </span>
+                  </div>
                 </div>
-                <div className="exp-duration">
-                  <MdOutlineCalendarToday className="exp-cal-icon" />
-                  {item.duration}
+
+                {/* Responsibilities */}
+                <ul className="flex flex-col gap-2.5 mb-5">
+                  {exp.responsibilities.map((r, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <span
+                        className="flex-shrink-0 mt-[5px] w-1.5 h-1.5 rounded-full"
+                        style={{ background: 'var(--accent)' }}
+                      />
+                      <span className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                        {r}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Type tag */}
+                <div>
+                  <span
+                    className="inline-flex px-3 py-1 rounded-full text-[0.62rem] font-bold uppercase tracking-wider"
+                    style={{
+                      background: 'rgba(249,202,28,0.1)',
+                      border: '1px solid rgba(249,202,28,0.22)',
+                      color: 'var(--accent)',
+                    }}
+                  >
+                    {exp.tag}
+                  </span>
                 </div>
               </div>
 
-              <p className="exp-desc">{item.description}</p>
-
-              <div className="exp-tech">
-                {item.technologies.map((t) => (
-                  <span key={t} className="tech-badge">{t}</span>
-                ))}
-              </div>
-
-              <div className="exp-type-badge">
-                {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-              </div>
             </div>
           ))}
+
         </div>
       </div>
-
-      <style>{`
-        .exp-timeline {
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-          position: relative;
-        }
-
-        .exp-card {
-          position: relative;
-          overflow: visible;
-        }
-
-        .exp-card-header {
-          display: flex;
-          align-items: flex-start;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .exp-icon-wrap {
-          width: 44px;
-          height: 44px;
-          border-radius: 10px;
-          background: var(--accent-orange-dim);
-          border: 1px solid var(--accent-orange-border);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.2rem;
-          color: var(--accent-orange);
-          flex-shrink: 0;
-        }
-
-        .exp-header-text {
-          flex: 1;
-        }
-
-        .exp-role {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: var(--text-primary);
-          margin-bottom: 0.2rem;
-        }
-
-        .exp-company {
-          font-size: 0.88rem;
-          font-weight: 600;
-          color: var(--accent-orange);
-        }
-
-        .exp-duration {
-          display: flex;
-          align-items: center;
-          gap: 0.35rem;
-          font-size: 0.78rem;
-          color: var(--text-muted);
-          font-weight: 500;
-          white-space: nowrap;
-          background: var(--bg-secondary);
-          border: 1px solid var(--border-subtle);
-          border-radius: 9999px;
-          padding: 0.35rem 0.75rem;
-          flex-shrink: 0;
-        }
-
-        .exp-cal-icon {
-          font-size: 0.9rem;
-        }
-
-        .exp-desc {
-          font-size: 0.9rem;
-          color: var(--text-secondary);
-          line-height: 1.75;
-          margin-bottom: 1rem;
-          padding-left: calc(44px + 1rem);
-        }
-
-        .exp-tech {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.4rem;
-          padding-left: calc(44px + 1rem);
-        }
-
-        .exp-type-badge {
-          position: absolute;
-          top: 1.25rem;
-          right: 1.25rem;
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--accent-blue);
-          background: var(--accent-blue-dim);
-          border: 1px solid rgba(96, 165, 250, 0.2);
-          border-radius: 9999px;
-          padding: 0.2rem 0.65rem;
-        }
-
-        @media (max-width: 640px) {
-          .exp-card-header {
-            flex-wrap: wrap;
-          }
-          .exp-duration {
-            margin-left: calc(44px + 1rem);
-          }
-          .exp-desc,
-          .exp-tech {
-            padding-left: 0;
-          }
-          .exp-type-badge {
-            position: static;
-            margin-top: 1rem;
-            width: fit-content;
-          }
-        }
-      `}</style>
     </section>
   );
 }

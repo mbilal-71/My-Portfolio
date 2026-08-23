@@ -1,18 +1,22 @@
-export const technologies = {
-  frontend: [
-    { name: "HTML", icon: "SiHtml5" },
-    { name: "CSS", icon: "SiCss3" },
-    { name: "JavaScript", icon: "SiJavascript" },
-    { name: "React.js", icon: "SiReact" },
-  ],
-  backend: [
-    { name: "Node.js", icon: "SiNodedotjs" },
-    { name: "Express.js", icon: "SiExpress" },
-  ],
-  database: [{ name: "MongoDB", icon: "SiMongodb" }],
-  tools: [
-    { name: "Git", icon: "SiGit" },
-    { name: "GitHub", icon: "SiGithub" },
-    { name: "VS Code", icon: "SiVisualstudiocode" },
-  ],
-};
+export const techGroups = [
+  {
+    label: "FRONTEND",
+    items: ["HTML", "CSS", "JavaScript", "React", "Next.js", "Tailwind CSS"],
+  },
+  {
+    label: "BACKEND",
+    items: ["Node.js", "Express.js"],
+  },
+  {
+    label: "DATABASE",
+    items: ["MongoDB"],
+  },
+  {
+    label: "AI & AUTOMATION",
+    items: ["OpenAI", "Gemini", "Claude", "Grok"],
+  },
+  {
+    label: "DESIGN",
+    items: ["Figma", "UI/UX Design"],
+  },
+];

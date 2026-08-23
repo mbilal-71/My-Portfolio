@@ -2,41 +2,37 @@ export const services = [
   {
     id: 1,
     number: "01",
-    title: "Frontend Development",
+    icon: "frontend",
+    title: "Frontend Developer",
     description:
-      "Modern, responsive, and interactive interfaces built with React.js and cutting-edge frontend technologies. Pixel-perfect implementation with smooth animations.",
-    icon: "MdOutlineDesktopWindows",
+      "I craft responsive, pixel-perfect interfaces using React, Tailwind CSS, and modern UI patterns. From smooth animations to optimized performance — every detail matters.",
+    tags: ["React", "Tailwind CSS", "JavaScript", "GSAP", "Responsive"],
   },
   {
     id: 2,
     number: "02",
-    title: "Backend Development",
+    icon: "backend",
+    title: "Backend Developer",
     description:
-      "Scalable REST APIs, server-side applications, and robust backend systems built with Node.js and Express.js. Clean architecture and efficient data handling.",
-    icon: "MdOutlineStorage",
+      "Scalable server-side architectures with Node.js and Express.js. REST APIs, authentication systems, MongoDB integrations, and business logic built to last.",
+    tags: ["Node.js", "Express.js", "MongoDB", "REST APIs", "Auth"],
   },
   {
     id: 3,
     number: "03",
-    title: "Full Stack Development",
+    icon: "design",
+    title: "UI/UX Designer",
     description:
-      "End-to-end web applications combining frontend, backend, and database layers. Cohesive, production-ready solutions from concept to deployment.",
-    icon: "MdOutlineCode",
+      "From wireframes to final design systems in Figma. I design intuitive, beautiful interfaces with a focus on user experience, accessibility, and visual hierarchy.",
+    tags: ["Figma", "Wireframes", "Design Systems", "UX Research"],
   },
   {
     id: 4,
     number: "04",
-    title: "UI/UX Design",
-    description:
-      "Clean, user-focused interface design with attention to usability and visual hierarchy. Responsive layouts that look and feel great on every device.",
-    icon: "MdOutlinePalette",
-  },
-  {
-    id: 5,
-    number: "05",
+    icon: "ai",
     title: "AI Automation",
     description:
-      "AI-powered workflows, integrations, and automation solutions that streamline operations and enhance productivity. Smart tools for modern challenges.",
-    icon: "MdOutlineAutoAwesome",
+      "Integrate AI-powered workflows using OpenAI, Gemini, Claude, and Grok. Build intelligent systems, chatbots, and automation pipelines that amplify your business.",
+    tags: ["OpenAI", "Gemini", "Claude", "Grok", "API Integration"],
   },
 ];
