@@ -14,10 +14,11 @@ export default function FloatingWhatsApp() {
   const ref = useRef(null);
 
   useEffect(() => {
+    const el = ref.current;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     gsap.fromTo(
-      ref.current,
+      el,
       { scale: 0, opacity: 0 },
       { scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.7)', delay: 2.2 }
     );
@@ -33,7 +34,7 @@ export default function FloatingWhatsApp() {
     });
 
     return () => {
-      gsap.killTweensOf(ref.current);
+      gsap.killTweensOf(el);
       gsap.killTweensOf('.wa-ping');
     };
   }, []);

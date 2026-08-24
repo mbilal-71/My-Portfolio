@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import portfolioData from '../data/portfolioData';
 
 // Nav items with SVG icon paths
 const navItems = [
@@ -61,24 +60,18 @@ const navItems = [
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
-  const [visible, setVisible] = useState(false);
+  const [visible] = useState(true);
   const pillRef = useRef(null);
 
   // Entrance animation
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setVisible(true);
-      return;
-    }
-    const timer = setTimeout(() => {
-      setVisible(true);
-      gsap.fromTo(
-        pillRef.current,
-        { y: 40, opacity: 0, scale: 0.9 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.65, ease: 'back.out(1.5)' }
-      );
-    }, 600);
-    return () => clearTimeout(timer);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    
+    gsap.fromTo(
+      pillRef.current,
+      { y: 40, opacity: 0, scale: 0.9 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.65, ease: 'back.out(1.5)', delay: 0.6 }
+    );
   }, []);
 
   // IntersectionObserver — section spy

@@ -66,26 +66,26 @@ export default function FeaturedProjects() {
           {projects.map((p) => (
             <div
               key={p.id}
-              className="proj-card card overflow-hidden group flex flex-col justify-between h-full !p-0"
+              className="proj-card group"
             >
               {/* Image Banner */}
-              <div className="relative overflow-hidden h-52 sm:h-56 w-full">
+              <div className="relative overflow-hidden h-52 sm:h-60 w-full bg-[#121212]">
                 <img
                   src={p.image}
                   alt={p.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
                 {/* Overlay on hover */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3"
-                  style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
+                  style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
                 >
                   <a
                     href={p.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 hover:scale-105"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                     style={{ background: 'var(--accent)', color: '#0a0a0a' }}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -95,7 +95,7 @@ export default function FeaturedProjects() {
                     href={p.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 hover:scale-105"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                     style={{
                       background: 'rgba(255,255,255,0.1)',
                       border: '1px solid rgba(255,255,255,0.2)',
@@ -107,12 +107,12 @@ export default function FeaturedProjects() {
                   </a>
                 </div>
                 {/* Category badge */}
-                <div className="absolute top-3.5 left-3.5">
+                <div className="absolute top-4 left-4">
                   <span
-                    className="px-3 py-1 rounded-full text-[0.62rem] font-bold uppercase tracking-wider"
+                    className="px-3 py-1 rounded-full text-[0.62rem] font-bold uppercase tracking-wider shadow-md"
                     style={{
-                      background: 'rgba(249,202,28,0.15)',
-                      border: '1px solid rgba(249,202,28,0.3)',
+                      background: 'rgba(249,202,28,0.18)',
+                      border: '1px solid rgba(249,202,28,0.4)',
                       color: 'var(--accent)',
                       backdropFilter: 'blur(8px)',
                     }}
@@ -122,12 +122,15 @@ export default function FeaturedProjects() {
                 </div>
               </div>
 
-              {/* Content Body */}
-              <div className="flex flex-col justify-between flex-1 gap-4 p-6 sm:p-7">
-                <div className="flex flex-col gap-2">
+              {/* Content Body with generous horizontal & vertical padding */}
+              <div
+                className="proj-card-body px-6 sm:px-8 py-6 sm:py-7 flex flex-col justify-between flex-1 gap-4"
+                style={{ padding: '1.75rem 2rem' }}
+              >
+                <div className="flex flex-col gap-2.5">
                   <h3
                     className="text-lg sm:text-xl font-bold group-hover:text-[#F9CA1C] transition-colors duration-300"
-                    style={{ fontFamily: 'var(--font-display)' }}
+                    style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
                   >
                     {p.title}
                   </h3>
@@ -144,7 +147,7 @@ export default function FeaturedProjects() {
                 </div>
 
                 {/* Action Links */}
-                <div className="flex items-center gap-3 pt-3 border-t border-white/[0.05]">
+                <div className="flex items-center gap-4 pt-3.5 border-t border-white/[0.07]">
                   <a
                     href={p.live}
                     target="_blank"

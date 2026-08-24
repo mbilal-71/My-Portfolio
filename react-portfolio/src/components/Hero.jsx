@@ -215,6 +215,9 @@ export default function Hero() {
       className="relative min-h-screen lg:h-screen lg:max-h-[920px] flex flex-col justify-between overflow-hidden pt-4 sm:pt-6 lg:pt-4 pb-28 sm:pb-32 lg:pb-30"
       style={{ background: 'var(--bg-primary)' }}
     >
+      {/* Background ambient particles */}
+      <Particles />
+
       {/* ── Main Hero Content ── */}
       <div className="relative z-10 w-full section-container flex-1 flex items-center py-3 sm:py-5 lg:py-3">
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
