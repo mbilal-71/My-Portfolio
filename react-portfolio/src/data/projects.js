@@ -32,4 +32,27 @@ export const projects = [
     image: "/amazon.png",
     category: "Frontend",
   },
+
+  {
+    id: 4,
+    title: "Amazon Clone",
+    description:
+      "Developed a responsive Amazon-style e-commerce UI using HTML and CSS, focusing on layout structure, product grids, navigation bar, and user-friendly design.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    github: "https://github.com/mbilal-71/Amazon-Clone",
+    live: "https://mbilal-71.github.io/Amazon-Clone/",
+    image: "/amazon.png",
+    category: "Frontend",
+  },
+  {
+    id: 5,
+    title: "Amazon Clone",
+    description:
+      "Developed a responsive Amazon-style e-commerce UI using HTML and CSS, focusing on layout structure, product grids, navigation bar, and user-friendly design.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    github: "https://github.com/mbilal-71/Amazon-Clone",
+    live: "https://mbilal-71.github.io/Amazon-Clone/",
+    image: "/amazon.png",
+    category: "Frontend",
+  },
 ];

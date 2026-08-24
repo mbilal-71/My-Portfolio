@@ -2,8 +2,8 @@ export const experience = [
   {
     id: 1,
     role: "Frontend Engineer Intern",
-    company: "Company Name", // TODO: Update with actual company name
-    duration: "2024 – Present", // TODO: Update with actual dates
+    company: "Al-Khidmat Foundation Digital", // TODO: Update with actual company name
+    duration: " 12 / 2025 – 3 / 2026  ", // TODO: Update with actual dates
     type: "Internship",
     tag: "Frontend Development",
     responsibilities: [
