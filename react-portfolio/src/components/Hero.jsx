@@ -324,7 +324,7 @@ export default function Hero() {
       </div>
 
       {/* ── Stats bar ── */}
-      <div className="relative z-10 w-full section-container lg:-translate-y-28 mt-6 sm:mt-8 lg:mt-0 pb-6 lg:pb-0">
+      <div className="relative z-10 w-full section-container lg:-translate-y-6 mt-6 sm:mt-8 lg:mt-0 pb-6 lg:pb-0">
         <StatsBar />
       </div>
 

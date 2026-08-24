@@ -252,7 +252,7 @@ export default function About() {
           </div>
 
           {/* Card 4 — Quick Contact */}
-          <div className="ab-card card flex flex-col justify-between gap-5">
+          <div className="ab-card card flex flex-col justify-start gap-4">
             <div className="flex items-center gap-3.5">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"

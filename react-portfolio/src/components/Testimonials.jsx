@@ -1,55 +1,378 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ── Sample testimonials — PLACEHOLDER DATA ──────────────
-   These are clearly marked sample testimonials.
-   Replace with real client reviews when available.
-   ─────────────────────────────────────────────────────── */
-const SAMPLE_TESTIMONIALS = [
+const STORAGE_KEY = 'portfolio_testimonials_reviews';
+
+const DEFAULT_TESTIMONIALS = [
   {
-    id: 1,
-    name: 'Sample Client',
+    id: 't-1',
+    name: 'Ali Khan',
     role: 'Business Owner',
     rating: 5,
-    text: '"Excellent work! Delivered the project on time with clean, well-structured code. Great communication throughout. Highly recommend for any web development project."',
+    text: 'Excellent work! Delivered the project on time with clean, well-structured code. Great communication throughout. Highly recommend for any web development project.',
     tags: ['Reliable', 'Clean Code', 'On Time'],
     source: 'Client · Web Project',
     isSample: true,
   },
   {
-    id: 2,
-    name: 'Sample Client',
+    id: 't-2',
+    name: 'Hanzla Saeed',
     role: 'Startup Founder',
     rating: 5,
-    text: '"Outstanding attention to detail and a great eye for design. Built exactly what we envisioned — responsive, fast, and beautifully crafted."',
+    text: 'Outstanding attention to detail and a great eye for design. Built exactly what we envisioned — responsive, fast, and beautifully crafted.',
     tags: ['Detail Oriented', 'Great Design'],
     source: 'Client · Frontend Project',
     isSample: true,
   },
 ];
 
-function StarIcon({ filled }) {
+/* ── Star Icon ─────────────────────────────────────────── */
+function StarIcon({ filled, size = 13 }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? '#F9CA1C' : 'none'} stroke="#F9CA1C" strokeWidth="1.5">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={filled ? '#F9CA1C' : 'none'}
+      stroke="#F9CA1C"
+      strokeWidth="1.5"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
     </svg>
   );
 }
 
-function QuoteIcon() {
+/* ── Interactive Star Rating Picker ────────────────────── */
+function StarRatingInput({ rating, setRating }) {
+  const [hovered, setHovered] = useState(0);
+
   return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-      <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
-    </svg>
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => {
+        const isFilled = hovered ? star <= hovered : star <= rating;
+        return (
+          <button
+            key={star}
+            type="button"
+            onMouseEnter={() => setHovered(star)}
+            onMouseLeave={() => setHovered(0)}
+            onClick={() => setRating(star)}
+            className="p-0.5 transition-transform hover:scale-125 focus:outline-none"
+            aria-label={`${star} star`}
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill={isFilled ? '#F9CA1C' : 'none'}
+              stroke="#F9CA1C"
+              strokeWidth="1.5"
+              className="transition-colors duration-150"
+            >
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+          </button>
+        );
+      })}
+      <span className="text-[0.7rem] font-bold ml-1" style={{ color: 'var(--accent)' }}>
+        {rating}.0
+      </span>
+    </div>
   );
 }
 
+/* ── Compact Testimonial Card ──────────────────────────── */
+function TestimonialCard({ testimonial }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const isLong = testimonial.text && testimonial.text.length > 110;
+
+  return (
+    <div className="test-card card flex flex-col justify-between gap-3.5 p-5 relative overflow-hidden h-full">
+      {/* Badge */}
+      {testimonial.isSample ? (
+        <div
+          className="absolute top-3.5 right-3.5 text-[0.55rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+          style={{
+            background: 'var(--accent-dim)',
+            border: '1px solid var(--accent-border)',
+            color: 'var(--accent)',
+          }}
+        >
+          Sample
+        </div>
+      ) : (
+        <div
+          className="absolute top-3.5 right-3.5 text-[0.55rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1"
+          style={{
+            background: 'rgba(34,197,94,0.1)',
+            border: '1px solid rgba(34,197,94,0.3)',
+            color: '#22c55e',
+          }}
+        >
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Verified
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2.5">
+        {/* Stars + rating */}
+        <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <StarIcon key={i} filled={i < testimonial.rating} />
+            ))}
+          </div>
+          <span className="text-xs font-bold" style={{ color: 'var(--accent)' }}>
+            {testimonial.rating}.0
+          </span>
+        </div>
+
+        {/* Quote text */}
+        <div>
+          <p className="text-xs leading-relaxed italic" style={{ color: 'var(--text-secondary)' }}>
+            "{isLong && !isExpanded ? `${testimonial.text.slice(0, 110)}...` : testimonial.text}"
+          </p>
+          {isLong && (
+            <button
+              type="button"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="mt-1 text-[0.68rem] font-semibold inline-flex items-center gap-0.5 hover:underline"
+              style={{ color: 'var(--accent)' }}
+            >
+              {isExpanded ? 'See Less ↑' : 'See More ↓'}
+            </button>
+          )}
+        </div>
+
+        {/* Tags */}
+        {testimonial.tags && testimonial.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 pt-0.5">
+            {testimonial.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 rounded-full text-[0.58rem] font-semibold"
+                style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid var(--border-subtle)',
+                  color: 'var(--text-secondary)',
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center gap-2.5 pt-3 border-t border-white/[0.06]">
+        <div
+          className="w-8 h-8 rounded-full flex items-center justify-center text-[0.7rem] font-bold flex-shrink-0 uppercase"
+          style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)', color: 'var(--accent)' }}
+        >
+          {testimonial.name ? testimonial.name.charAt(0) : 'U'}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs font-bold truncate leading-tight">{testimonial.name}</p>
+          <p className="text-[0.6rem] truncate" style={{ color: 'var(--text-muted)' }}>
+            {testimonial.source || (testimonial.role ? `Client · ${testimonial.role}` : 'Client Review')}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Streamlined Review Form Card (Condensed) ─────────── */
+function ReviewFormCard({ onAddReview }) {
+  const [name, setName] = useState('');
+  const [role, setRole] = useState('');
+  const [rating, setRating] = useState(5);
+  const [text, setText] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name.trim() || !text.trim()) {
+      setErrorMessage('Please enter your name & review.');
+      return;
+    }
+
+    setErrorMessage('');
+    const newReview = {
+      id: `rev-${Date.now()}`,
+      name: name.trim(),
+      role: role.trim() || 'Client',
+      rating,
+      text: text.trim(),
+      tags: ['Verified Feedback'],
+      source: role.trim() ? `Client · ${role.trim()}` : 'Client · Verified Review',
+      isSample: false,
+    };
+
+    onAddReview(newReview);
+    setIsSubmitted(true);
+    setName('');
+    setRole('');
+    setText('');
+    setRating(5);
+  };
+
+  return (
+    <div
+      className="test-card card flex flex-col justify-between gap-3 p-5 h-full relative overflow-hidden"
+      style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-accent)',
+      }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span
+            className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+            style={{ background: 'var(--accent-dim)', color: 'var(--accent)', border: '1px solid var(--accent-border)' }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+          </span>
+          <h3 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>
+            Share Review
+          </h3>
+        </div>
+        <StarRatingInput rating={rating} setRating={setRating} />
+      </div>
+
+      {isSubmitted ? (
+        <div className="flex flex-col items-center justify-center py-4 text-center gap-2 my-auto">
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center text-emerald-400"
+            style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)' }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-white">Review Added! 🎉</h4>
+            <p className="text-[0.68rem]" style={{ color: 'var(--text-secondary)' }}>
+              Saved to your portfolio.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsSubmitted(false)}
+            className="text-[0.68rem] font-semibold text-[var(--accent)] hover:underline mt-1"
+          >
+            + Add Another
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+          {/* Name & Role in single row */}
+          <div className="grid grid-cols-2 gap-2">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your Name *"
+              className="w-full px-2.5 py-1.5 rounded-lg text-[0.72rem] transition-colors focus:outline-none"
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--text-primary)',
+              }}
+            />
+            <input
+              type="text"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              placeholder="Role / Title"
+              className="w-full px-2.5 py-1.5 rounded-lg text-[0.72rem] transition-colors focus:outline-none"
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--text-primary)',
+              }}
+            />
+          </div>
+
+          {/* Feedback */}
+          <textarea
+            rows={2}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Write your review here..."
+            className="w-full px-2.5 py-1.5 rounded-lg text-[0.72rem] transition-colors focus:outline-none resize-none"
+            style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-primary)',
+            }}
+          />
+
+          {errorMessage && (
+            <p className="text-[0.62rem] text-red-400 font-medium">
+              {errorMessage}
+            </p>
+          )}
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="btn btn-primary text-xs py-1.5 w-full flex items-center justify-center gap-1.5"
+          >
+            <span>Post Review</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+/* ── Main Testimonials Section ─────────────────────────── */
 export default function Testimonials() {
   const ref = useRef(null);
+  const [testimonials, setTestimonials] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch {
+      // fallback
+    }
+    return DEFAULT_TESTIMONIALS;
+  });
+
+  const [showAll, setShowAll] = useState(false);
+
+  const handleAddReview = (newReview) => {
+    setTestimonials((prev) => {
+      const updated = [newReview, ...prev];
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      } catch (err) {
+        console.error('Error saving review to localStorage', err);
+      }
+      return updated;
+    });
+  };
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -68,6 +391,9 @@ export default function Testimonials() {
     return () => ctx.revert();
   }, []);
 
+  const topReviews = testimonials.slice(0, 2);
+  const remainingReviews = testimonials.slice(2);
+
   return (
     <section
       id="testimonials"
@@ -78,133 +404,57 @@ export default function Testimonials() {
       <div className="section-container">
 
         {/* Header */}
-        <div className="test-hdr mb-12 sm:mb-14">
+        <div className="test-hdr mb-10 sm:mb-12">
           <p className="section-label mb-3">Testimonials</p>
           <h2 className="section-heading">
             What Clients <span className="accent">say</span>
           </h2>
         </div>
 
-        {/* 3-col grid (2 testimonial cards + 1 CTA card) */}
-        <div className="test-grid grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-
-          {/* Testimonial cards */}
-          {SAMPLE_TESTIMONIALS.map((t) => (
-            <div
-              key={t.id}
-              className="test-card card flex flex-col justify-between gap-5 relative overflow-hidden h-full"
-            >
-              {/* Sample label */}
-              {t.isSample && (
-                <div
-                  className="absolute top-4 right-4 text-[0.58rem] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
-                  style={{
-                    background: 'rgba(249,202,28,0.08)',
-                    border: '1px solid rgba(249,202,28,0.2)',
-                    color: 'rgba(249,202,28,0.6)',
-                  }}
-                >
-                  Sample
-                </div>
-              )}
-
-              <div className="flex flex-col gap-3.5">
-                {/* Stars + rating */}
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <StarIcon key={i} filled={i < t.rating} />
-                    ))}
-                  </div>
-                  <span className="text-sm font-bold" style={{ color: 'var(--accent)' }}>
-                    {t.rating}.0
-                  </span>
-                </div>
-
-                {/* Quote text */}
-                <p
-                  className="text-sm leading-relaxed italic"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  {t.text}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {t.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-0.5 rounded-full text-[0.62rem] font-semibold"
-                      style={{
-                        background: 'rgba(255,255,255,0.04)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        color: 'var(--text-secondary)',
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Source */}
-              <div className="flex items-center gap-3 pt-4 border-t border-white/[0.05]">
-                {/* Avatar placeholder */}
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-                  style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)', color: 'var(--accent)' }}
-                >
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="text-xs font-bold">{t.name}</p>
-                  <p className="text-[0.62rem]" style={{ color: 'var(--text-muted)' }}>{t.source}</p>
-                </div>
-              </div>
-            </div>
+        {/* Condensed 3-column Grid */}
+        <div className="test-grid grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
+          {topReviews.map((t) => (
+            <TestimonialCard key={t.id} testimonial={t} />
           ))}
 
-          {/* CTA card — 3rd column */}
-          <div
-            className="test-card card flex flex-col items-center justify-center gap-5 text-center h-full p-8"
-            style={{
-              background: '#30280F',
-              border: '1px solid rgba(249,202,28,0.22)',
-            }}
-          >
-            {/* Target icon */}
-            <div
-              className="w-14 h-14 rounded-full flex items-center justify-center"
-              style={{
-                border: '2px solid rgba(249,202,28,0.4)',
-                color: 'rgba(249,202,28,0.7)',
-              }}
-            >
-              <QuoteIcon />
-            </div>
-            <div>
-              <p className="text-base font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-                Real reviews coming soon
-              </p>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                Check out my work on GitHub
-              </p>
-            </div>
-            <a
-              href="https://github.com/mbilal-71"
-              target="_blank"
-              rel="noopener noreferrer"
-              id="testimonials-github"
-              className="btn btn-primary text-xs px-5 py-2.5 flex items-center gap-2"
-            >
-              View GitHub Projects
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
-              </svg>
-            </a>
-          </div>
-
+          {/* Condensed Form Card */}
+          <ReviewFormCard onAddReview={handleAddReview} />
         </div>
+
+        {/* Expandable "See More Reviews" */}
+        {remainingReviews.length > 0 && (
+          <div className="mt-6 flex flex-col items-center">
+            {showAll && (
+              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 items-stretch mb-6">
+                {remainingReviews.map((t) => (
+                  <TestimonialCard key={t.id} testimonial={t} />
+                ))}
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setShowAll(!showAll)}
+              className="btn btn-secondary text-xs px-5 py-2 flex items-center gap-2"
+            >
+              <span>{showAll ? 'Show Fewer Reviews' : `See More Reviews (${remainingReviews.length} more)`}</span>
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          </div>
+        )}
+
       </div>
     </section>
   );
