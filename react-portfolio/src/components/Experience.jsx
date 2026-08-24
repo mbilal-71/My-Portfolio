@@ -90,9 +90,9 @@ export default function Experience() {
                     <span
                       className="text-xs font-semibold px-3 py-1 rounded-full"
                       style={{
-                        background: 'rgba(249,202,28,0.08)',
-                        border: '1px solid rgba(249,202,28,0.2)',
-                        color: 'var(--accent)',
+                        background: 'var(--accent-dim)',
+                        border: '1px solid var(--accent-border)',
+                        color: 'var(--accent-bright)',
                       }}
                     >
                       {exp.duration}
@@ -106,7 +106,7 @@ export default function Experience() {
                     <li key={i} className="flex items-start gap-2.5">
                       <span
                         className="flex-shrink-0 mt-[7px] w-1.5 h-1.5 rounded-full"
-                        style={{ background: 'var(--accent)' }}
+                        style={{ background: 'var(--accent-bright)' }}
                       />
                       <span className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                         {r}
@@ -120,9 +120,9 @@ export default function Experience() {
                   <span
                     className="inline-flex px-3 py-1 rounded-full text-[0.62rem] font-bold uppercase tracking-wider"
                     style={{
-                      background: 'rgba(249,202,28,0.1)',
-                      border: '1px solid rgba(249,202,28,0.22)',
-                      color: 'var(--accent)',
+                      background: 'var(--accent-dim)',
+                      border: '1px solid var(--accent-border)',
+                      color: 'var(--accent-bright)',
                     }}
                   >
                     {exp.tag}

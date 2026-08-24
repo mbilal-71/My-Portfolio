@@ -111,9 +111,9 @@ export default function FeaturedProjects() {
                   <span
                     className="px-3 py-1 rounded-full text-[0.62rem] font-bold uppercase tracking-wider shadow-md"
                     style={{
-                      background: 'rgba(249,202,28,0.18)',
-                      border: '1px solid rgba(249,202,28,0.4)',
-                      color: 'var(--accent)',
+                      background: 'var(--accent-dim)',
+                      border: '1px solid var(--accent-border)',
+                      color: 'var(--accent-bright)',
                       backdropFilter: 'blur(8px)',
                     }}
                   >
@@ -129,7 +129,7 @@ export default function FeaturedProjects() {
               >
                 <div className="flex flex-col gap-2.5">
                   <h3
-                    className="text-lg sm:text-xl font-bold group-hover:text-[#F9CA1C] transition-colors duration-300"
+                    className="text-lg sm:text-xl font-bold group-hover:text-[var(--accent-bright)] transition-colors duration-300"
                     style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
                   >
                     {p.title}
@@ -152,7 +152,7 @@ export default function FeaturedProjects() {
                     href={p.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs font-semibold transition-all duration-200 hover:text-[#F9CA1C]"
+                    className="flex items-center gap-1.5 text-xs font-semibold transition-all duration-200 hover:text-[var(--accent-bright)]"
                     style={{ color: 'var(--text-secondary)' }}
                   >
                     <ExternalIcon /> Live Demo
@@ -162,7 +162,7 @@ export default function FeaturedProjects() {
                     href={p.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs font-semibold transition-all duration-200 hover:text-[#F9CA1C]"
+                    className="flex items-center gap-1.5 text-xs font-semibold transition-all duration-200 hover:text-[var(--accent-bright)]"
                     style={{ color: 'var(--text-secondary)' }}
                   >
                     <GithubIcon /> Source Code

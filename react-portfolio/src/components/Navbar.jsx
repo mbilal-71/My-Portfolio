@@ -60,18 +60,17 @@ const navItems = [
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
-  const [visible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
   const pillRef = useRef(null);
 
-  // Entrance animation
+  // Scroll listener to hide navbar when at top/hero
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    
-    gsap.fromTo(
-      pillRef.current,
-      { y: 40, opacity: 0, scale: 0.9 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.65, ease: 'back.out(1.5)', delay: 0.6 }
-    );
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 200);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // IntersectionObserver — section spy
@@ -96,12 +95,13 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Bottom floating pill navbar */}
+      {/* Bottom floating pill navbar — hidden on hero/top, visible on scroll */}
       <nav
         ref={pillRef}
-        className="navbar-pill"
+        className={`navbar-pill transition-all duration-500 ${
+          scrolled ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-12 pointer-events-none'
+        }`}
         aria-label="Main navigation"
-        style={{ opacity: visible ? undefined : 0 }}
       >
         {navItems.map(({ id, label, icon }) => {
           const isActive = active === id;

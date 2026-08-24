@@ -35,7 +35,7 @@ const ServiceIcons = {
 
 /* ── Card accent colors per service ───────────────────── */
 const cardColors = [
-  { color: '#F9CA1C', bg: 'rgba(249,202,28,0.08)', border: 'rgba(249,202,28,0.2)' },
+  { color: '#3cdefb', bg: 'rgba(60,222,251,0.08)', border: 'rgba(60,222,251,0.22)' },
   { color: '#60A5FA', bg: 'rgba(96,165,250,0.08)', border: 'rgba(96,165,250,0.2)' },
   { color: '#F472B6', bg: 'rgba(244,114,182,0.08)', border: 'rgba(244,114,182,0.2)' },
   { color: '#34D399', bg: 'rgba(52,211,153,0.08)', border: 'rgba(52,211,153,0.2)' },

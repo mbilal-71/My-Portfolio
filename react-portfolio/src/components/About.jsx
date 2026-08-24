@@ -62,7 +62,7 @@ function QuickContact() {
     },
     {
       id: 'about-email', label: 'Email', sub: email, href: `mailto:${email}`,
-      color: '#F9CA1C', bg: 'rgba(249,202,28,0.08)', border: 'rgba(249,202,28,0.22)',
+      color: '#3cdefb', bg: 'rgba(60,222,251,0.08)', border: 'rgba(60,222,251,0.22)',
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -165,7 +165,7 @@ export default function About() {
             <div className="flex items-center gap-3.5">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: 'rgba(249,202,28,0.1)', border: '1px solid rgba(249,202,28,0.22)', color: 'var(--accent)' }}
+                style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)', color: 'var(--accent-bright)' }}
               >
                 <PersonIcon />
               </div>
@@ -211,9 +211,9 @@ export default function About() {
               <span
                 className="inline-flex px-3.5 py-1.5 rounded-full text-[0.65rem] font-bold uppercase tracking-wider"
                 style={{
-                  background: 'rgba(249,202,28,0.1)',
-                  border: '1px solid rgba(249,202,28,0.22)',
-                  color: 'var(--accent)',
+                  background: 'var(--accent-dim)',
+                  border: '1px solid var(--accent-border)',
+                  color: 'var(--accent-bright)',
                 }}
               >
                 Currently Enrolled
@@ -226,7 +226,7 @@ export default function About() {
             <div className="flex items-center gap-3.5">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: 'rgba(249,202,28,0.1)', border: '1px solid rgba(249,202,28,0.22)', color: 'var(--accent)' }}
+                style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)', color: 'var(--accent-bright)' }}
               >
                 <CodeIcon />
               </div>

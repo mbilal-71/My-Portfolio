@@ -153,9 +153,9 @@ export default function Contact() {
                 <div
                   className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-105"
                   style={{
-                    background: 'rgba(249,202,28,0.08)',
-                    border: '1px solid rgba(249,202,28,0.18)',
-                    color: 'rgba(249,202,28,0.85)',
+                    background: 'var(--accent-dim)',
+                    border: '1px solid var(--accent-border)',
+                    color: 'var(--accent-bright)',
                   }}
                 >
                   {icon}
@@ -170,7 +170,7 @@ export default function Contact() {
                     {label}
                   </p>
                   <p
-                    className="text-sm font-semibold truncate group-hover:text-[#F9CA1C] transition-colors duration-300"
+                    className="text-sm font-semibold truncate group-hover:text-[var(--accent-bright)] transition-colors duration-300"
                   >
                     {value}
                   </p>
@@ -178,7 +178,7 @@ export default function Contact() {
 
                 {/* Arrow */}
                 <span
-                  className="transition-all duration-300 opacity-40 group-hover:opacity-100 group-hover:text-[#F9CA1C]"
+                  className="transition-all duration-300 opacity-40 group-hover:opacity-100 group-hover:text-[var(--accent-bright)]"
                 >
                   <ArrowRight />
                 </span>

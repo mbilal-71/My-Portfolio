@@ -79,7 +79,7 @@ export default function Footer() {
                   key={id}
                   id={id}
                   onClick={() => scrollTo(target)}
-                  className="text-left text-sm transition-colors duration-200 hover:text-[#F9CA1C]"
+                  className="text-left text-sm transition-colors duration-200 hover:text-[var(--accent-bright)]"
                   style={{ color: 'var(--text-secondary)' }}
                 >
                   {label}
@@ -102,7 +102,7 @@ export default function Footer() {
                   target={href.startsWith('mailto') ? undefined : '_blank'}
                   rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                   aria-label={label}
-                  className="flex items-center gap-2.5 text-sm transition-colors duration-200 hover:text-[#F9CA1C]"
+                  className="flex items-center gap-2.5 text-sm transition-colors duration-200 hover:text-[var(--accent-bright)]"
                   style={{ color: 'var(--text-secondary)' }}
                 >
                   {icon}

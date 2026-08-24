@@ -1,40 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import {
-  SiJavascript, SiReact, SiMongodb, SiNextdotjs,
-  SiNodedotjs, SiExpress, SiFigma,
-} from 'react-icons/si';
-import { MdArrowOutward } from 'react-icons/md';
 import portfolioData from '../data/portfolioData';
-import StatsBar from './StatsBar';
 
-/* ── Orbit config ────────────────────────────────────────────
-   Two rings. Angles are the starting position of each icon.
-   CSS handles the continuous orbit; GSAP only handles entrance.
-   ─────────────────────────────────────────────────────────── */
-const RINGS = [
-  { r: 120, speed: '22s', dir: 'cw' },
-  { r: 185, speed: '36s', dir: 'ccw' },
-];
-
-const ORBIT_TECHS = [
-  { Icon: SiReact, color: '#61DAFB', label: 'React', ring: 0, angle: 0 },
-  { Icon: SiNodedotjs, color: '#6CC24A', label: 'Node.js', ring: 0, angle: 120 },
-  { Icon: SiJavascript, color: '#F9CA1C', label: 'JavaScript', ring: 0, angle: 240 },
-  { Icon: SiMongodb, color: '#47A248', label: 'MongoDB', ring: 1, angle: 30 },
-  { Icon: SiNextdotjs, color: '#ffffff', label: 'Next.js', ring: 1, angle: 138 },
-  { Icon: SiExpress, color: '#dddddd', label: 'Express.js', ring: 1, angle: 246 },
-  { Icon: SiFigma, color: '#F24E1E', label: 'Figma', ring: 1, angle: 354 },
-];
-
-/* ── Floating particles ───────────────────────────────────── */
-const PARTICLES = Array.from({ length: 22 }, (_, i) => ({
+/* ── Floating background particles ────────────────────────── */
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
   id: i,
-  x: (i * 4.7 + 9) % 100,
-  y: (i * 6.3 + 5) % 100,
-  size: (i % 3) * 0.8 + 1.2,
-  delay: (i * 0.37) % 6,
-  dur: 7 + (i % 5),
+  x: (i * 5.7 + 7) % 100,
+  y: (i * 7.1 + 4) % 100,
+  size: (i % 3) * 0.7 + 1.2,
+  delay: (i * 0.4) % 5,
+  dur: 8 + (i % 4),
 }));
 
 function Particles() {
@@ -45,9 +20,11 @@ function Particles() {
           key={p.id}
           className="absolute rounded-full"
           style={{
-            left: `${p.x}%`, top: `${p.y}%`,
-            width: p.size, height: p.size,
-            background: 'rgba(249,202,28,0.22)',
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            background: 'rgba(60, 222, 251, 0.25)',
             animation: `particle-drift ${p.dur}s ${p.delay}s infinite ease-in-out`,
           }}
         />
@@ -56,128 +33,15 @@ function Particles() {
   );
 }
 
-/* ── Single orbit icon ───────────────────────────────────── */
-function TechOrbitIcon({ Icon, color, label, ring, angle }) {
-  const { r, speed, dir } = RINGS[ring];
-  const size = ring === 0 ? 36 : 38;
-  const half = size / 2;
-  const iconSz = ring === 0 ? 16 : 18;
+/* ── Top Navbar items ─────────────────────────────────────── */
+const HERO_NAV_ITEMS = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About me' },
+  { id: 'services', label: 'Services' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'contact', label: 'Contact me' },
+];
 
-  return (
-    <div
-      className="tech-orbit-icon absolute"
-      title={label}
-      aria-label={label}
-      style={{
-        left: '50%', top: '50%',
-        width: size, height: size,
-        marginLeft: -half, marginTop: -half,
-        transform: `rotate(${angle}deg) translateX(${r}px) rotate(-${angle}deg)`,
-        animation: `orbit-${dir} ${speed} linear infinite`,
-        '--orbit-r': `${r}px`,
-        '--start-angle': `${angle}deg`,
-      }}
-    >
-      <div
-        className="w-full h-full flex items-center justify-center rounded-xl border border-white/10 backdrop-blur-sm transition-transform duration-300 hover:scale-125"
-        style={{
-          background: 'rgba(10,10,10,0.88)',
-          boxShadow: `0 0 12px ${color}44, 0 2px 8px rgba(0,0,0,0.5)`,
-        }}
-      >
-        <Icon size={iconSz} color={color} />
-      </div>
-    </div>
-  );
-}
-
-/* ── Profile + orbit composition ─────────────────────────── */
-function ProfileOrbit() {
-  return (
-    <div className="profile-orbit-root relative flex items-center justify-center select-none">
-
-      {/* Outermost ambient glow */}
-      <div
-        className="absolute rounded-full pointer-events-none"
-        style={{
-          width: 440, height: 440,
-          background: 'radial-gradient(circle, #30280F 0%, rgba(48,40,15,0.4) 45%, transparent 72%)',
-          animation: 'glow-breathe 5s ease-in-out infinite',
-        }}
-      />
-
-      {/* Outer decorative ring (orbit-1, r=185) */}
-      <div
-        className="absolute rounded-full border pointer-events-none"
-        style={{
-          width: 372, height: 372,
-          borderColor: 'rgba(249,202,28,0.13)',
-          animation: 'spin-slow 50s linear infinite',
-        }}
-      >
-        {[0, 72, 144, 216, 288].map((a) => (
-          <div
-            key={a}
-            className="absolute rounded-full"
-            style={{
-              width: 5, height: 5,
-              background: 'rgba(249,202,28,0.5)',
-              top: '50%', left: '50%',
-              transform: `rotate(${a}deg) translateX(186px) translateX(-2.5px) translateY(-2.5px)`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Inner decorative ring (orbit-0, r=120) */}
-      <div
-        className="absolute rounded-full border pointer-events-none"
-        style={{
-          width: 242, height: 242,
-          borderColor: 'rgba(249,202,28,0.08)',
-          animation: 'spin-slow-ccw 32s linear infinite',
-        }}
-      />
-
-      {/* Profile image */}
-      <div
-        className="profile-img-wrap relative rounded-full overflow-hidden z-10 flex-shrink-0"
-        style={{
-          width: 195, height: 195,
-          background: 'linear-gradient(135deg, #1a1a1a, #0a0a0a)',
-          border: '2.5px solid rgba(249,202,28,0.4)',
-          boxShadow: '0 0 0 6px rgba(249,202,28,0.05), 0 0 60px rgba(249,202,28,0.18)',
-        }}
-      >
-        {/* Pulse ring */}
-        <div
-          className="absolute inset-0 rounded-full border border-yellow-400/30 pointer-events-none"
-          style={{ animation: 'pulse-ring 3s ease-out infinite' }}
-        />
-        <img
-          src={portfolioData.profileImage}
-          alt={`${portfolioData.name} — ${portfolioData.role}`}
-          className="w-full h-full object-cover object-top"
-          loading="eager"
-        />
-        {/* Overlay gradient */}
-        <div
-          className="absolute inset-0 rounded-full pointer-events-none"
-          style={{ background: 'linear-gradient(135deg, rgba(249,202,28,0.04), transparent 60%)' }}
-        />
-      </div>
-
-      {/* Orbit icons */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        {ORBIT_TECHS.map((t, i) => (
-          <TechOrbitIcon key={i} {...t} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── Hero ────────────────────────────────────────────────── */
 export default function Hero() {
   const rootRef = useRef(null);
 
@@ -186,159 +50,253 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 0.15 });
 
-      // Set initial states
-      gsap.set(['.hero-badge', '.hero-h1', '.hero-name', '.hero-desc', '.hero-ctas'], {
-        autoAlpha: 0, y: 20,
+      gsap.set(['.hero-container-card', '.hero-top-nav', '.hero-left-content > *', '.hero-right-img-wrap'], {
+        autoAlpha: 0,
       });
-      gsap.set('.profile-orbit-root', { autoAlpha: 0, scale: 0.85 });
-      gsap.set('.stats-bar', { autoAlpha: 0, y: 20 });
-      gsap.set('.stat-item', { autoAlpha: 0 });
 
-      tl.to('.hero-badge', { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' })
-        .to('.hero-h1', { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power3.out' }, '-=0.25')
-        .to('.hero-name', { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' }, '-=0.3')
-        .to('.hero-desc', { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' }, '-=0.2')
-        .to('.hero-ctas', { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' }, '-=0.2')
-        .to('.profile-orbit-root', { autoAlpha: 1, scale: 1, duration: 0.75, ease: 'back.out(1.4)' }, '-=0.5')
-        .to('.stats-bar', { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', clearProps: 'transform' }, '-=0.1')
-        .to('.stat-item', { autoAlpha: 1, duration: 0.3, stagger: 0.06, ease: 'power2.out' }, '-=0.25');
+      tl.to('.hero-container-card', { autoAlpha: 1, duration: 0.6, ease: 'power3.out' })
+        .to('.hero-top-nav', { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '-=0.3')
+        .to('.hero-left-content > *', {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: 'power3.out',
+        }, '-=0.2')
+        .to('.hero-right-img-wrap', {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: 'back.out(1.2)',
+        }, '-=0.4');
     }, rootRef);
     return () => ctx.revert();
   }, []);
 
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section
       id="home"
       ref={rootRef}
-      className="relative min-h-screen lg:h-screen lg:max-h-[920px] flex flex-col justify-between overflow-hidden pt-4 sm:pt-6 lg:pt-4 pb-28 sm:pb-32 lg:pb-30"
-      style={{ background: 'var(--bg-primary)' }}
+      className="relative min-h-screen flex items-center justify-center pt-8 sm:pt-10 lg:pt-12 pb-24 sm:pb-28 lg:pb-32 px-4 sm:px-8 lg:px-12 overflow-hidden"
     >
+      {/* ── Fullscreen Wallpaper Background Layer ── */}
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{
+          backgroundImage: 'url(/wallpaper.jpeg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+
+      {/* Subtle dark vignette to ensure content contrast */}
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(10, 10, 10, 0.2) 0%, rgba(10, 10, 10, 0.6) 100%)',
+        }}
+      />
+
       {/* Background ambient particles */}
       <Particles />
 
-      {/* ── Main Hero Content ── */}
-      <div className="relative z-10 w-full section-container flex-1 flex items-center py-3 sm:py-5 lg:py-3">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+      {/* Decorative ambient background glows */}
+      <div
+        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none blur-[140px] opacity-20"
+        style={{ background: 'var(--accent)' }}
+      />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none blur-[120px] opacity-15"
+        style={{ background: '#091d24' }}
+      />
 
-          {/* Left — text content */}
-          <div className="flex flex-col gap-5 order-2 lg:order-1">
+      {/* ── Main Hero Card Container (Reference Layout) ── */}
+      <div
+        className="hero-container-card relative z-10 w-full max-w-[1160px] mx-auto rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-8 lg:p-10 xl:p-12 overflow-hidden"
+        style={{
+          background: 'rgba(14, 14, 14, 0.92)',
+          border: '1.5px solid rgba(255, 255, 255, 0.12)',
+          boxShadow: '0 30px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(30px)',
+          WebkitBackdropFilter: 'blur(30px)',
+        }}
+      >
+        {/* Subtle geometric background accents */}
+        <div
+          className="absolute -top-32 -right-32 w-80 h-80 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(255, 255, 255, 0.025) 0%, transparent 70%)' }}
+        />
+        <div
+          className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 70%)' }}
+        />
 
-            {/* Badge */}
-            <div
-              className="hero-badge inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border w-fit text-[0.68rem] font-semibold tracking-widest uppercase"
-              style={{
-                borderColor: 'rgba(249,202,28,0.22)',
-                background: 'rgba(249,202,28,0.06)',
-                color: 'var(--text-secondary)',
-              }}
-            >
-              <span
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{
-                  background: '#22c55e',
-                  boxShadow: '0 0 8px rgba(34,197,94,0.8)',
-                }}
-              />
-              {portfolioData.badge}
+        {/* ── Top Navbar (Inside Hero Card) ── */}
+        <header className="hero-top-nav relative z-20 flex items-center justify-between gap-4 pb-6 sm:pb-8 lg:pb-10 border-b border-white/[0.05] mb-6 sm:mb-8 lg:mb-12">
+          {/* Logo on Left */}
+
+
+          {/* Nav Links in Center (Desktop) */}
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-xs sm:text-sm font-medium">
+            {HERO_NAV_ITEMS.map(({ id, label }, idx) => (
+              <button
+                key={id}
+                onClick={() => scrollTo(id)}
+                className={`transition-colors duration-200 hover:text-[var(--accent)] ${idx === 0 ? 'text-[var(--accent)] font-semibold' : 'text-slate-300'
+                  }`}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Hire Me CTA on Right */}
+          <button
+            onClick={() => scrollTo('contact')}
+            id="hero-top-hire-me"
+            className="btn btn-primary text-xs sm:text-sm px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl font-bold transition-all shadow-md hover:scale-105"
+          >
+            Hire Me
+          </button>
+        </header>
+
+        {/* ── Two-Column Main Content ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center">
+
+          {/* Left Column — Text, Socials, CTAs, Stats */}
+          <div className="hero-left-content lg:col-span-7 flex flex-col justify-center gap-5 sm:gap-6 order-2 lg:order-1">
+
+            {/* Introduction & Name */}
+            <div>
+              <p className="text-sm sm:text-base font-medium text-slate-400 mb-1 tracking-wide">
+                Hi I am
+              </p>
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-wide">
+                {portfolioData.name}
+              </h2>
             </div>
 
-            {/* Headline */}
-            <h1 className="hero-h1" style={{ fontFamily: 'var(--font-display)' }}>
-              <span className="block text-3xl sm:text-4xl lg:text-[3.1rem] font-black leading-[1.1] tracking-tight text-white">
-                Building Modern Digital
-              </span>
-              <span
-                className="block text-3xl sm:text-4xl lg:text-[3.1rem] font-black leading-[1.1] tracking-tight"
-                style={{
-                  background: 'linear-gradient(90deg, #F9CA1C, #FFD93D)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                Experiences
-              </span>
+            {/* Main Title Heading */}
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.65rem] font-black leading-[1.12] tracking-tight"
+              style={{
+                fontFamily: 'var(--font-display)',
+                color: 'var(--accent-bright)',
+              }}
+            >
+              {portfolioData.role}
             </h1>
 
-            {/* Name */}
-            <p
-              className="hero-name text-xs font-bold tracking-[0.2em] uppercase"
-              style={{ color: 'var(--accent)', fontFamily: 'var(--font-body)' }}
-            >
-              {portfolioData.name}
-            </p>
-
-            {/* Description */}
-            <p
-              className="hero-desc text-xs sm:text-[0.88rem] leading-relaxed max-w-[440px]"
-              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
-            >
-              {portfolioData.heroDesc}
-            </p>
-
-            {/* CTAs */}
-            <div className="hero-ctas flex gap-3.5 flex-wrap pt-1">
+            {/* CTA Buttons Row */}
+            <div className="flex items-center gap-3.5 flex-wrap pt-1">
               <button
-                className="btn btn-primary"
-                id="hero-contact"
                 onClick={() => scrollTo('contact')}
-                style={{
-                  boxShadow: '0 4px 24px rgba(249,202,28,0.35)',
-                }}
+                id="hero-hire-me"
+                className="btn btn-primary px-6 sm:px-7 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-[rgba(46,124,134,0.3)] hover:scale-105 transition-all"
               >
-                Contact Me <MdArrowOutward />
+                Hire Me
               </button>
               <button
-                className="btn btn-secondary"
-                id="hero-projects"
                 onClick={() => scrollTo('projects')}
-                style={{
-                  background: 'rgba(18,18,18,0.6)',
-                  borderColor: 'rgba(249,202,28,0.28)',
-                  color: 'var(--text-primary)',
-                }}
+                id="hero-view-projects"
+                className="btn btn-secondary px-6 sm:px-7 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold border border-white/15 text-white hover:border-[var(--accent-bright)] hover:text-[var(--accent-bright)] hover:bg-white/[0.04] transition-all"
               >
                 View Projects
               </button>
             </div>
+
+            {/* Stats Block (Directly below CTAs in compact card format) */}
+            <div
+              className="w-full max-w-[480px] rounded-2xl p-4 sm:p-5 mt-2 transition-all duration-300"
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
+              }}
+            >
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 divide-x divide-white/[0.08]">
+                {/* Stat 1 */}
+                <div className="flex flex-col">
+                  <span
+                    className="text-xl sm:text-2xl font-black leading-none"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      color: 'var(--accent)',
+                    }}
+                  >
+                    10+
+                  </span>
+                  <span className="text-[0.68rem] sm:text-xs text-slate-400 font-medium mt-1.5 leading-tight">
+                    Projects Built
+                  </span>
+                </div>
+
+                {/* Stat 2 */}
+                <div className="flex flex-col pl-3 sm:pl-4">
+                  <span
+                    className="text-xl sm:text-2xl font-black leading-none"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      color: 'var(--accent)',
+                    }}
+                  >
+                    3+
+                  </span>
+                  <span className="text-[0.68rem] sm:text-xs text-slate-400 font-medium mt-1.5 leading-tight">
+                    Happy Clients
+                  </span>
+                </div>
+
+                {/* Stat 3 */}
+                <div className="flex flex-col pl-3 sm:pl-4">
+                  <span
+                    className="text-xl sm:text-2xl font-black leading-none"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      color: 'var(--accent)',
+                    }}
+                  >
+                    1.5+
+                  </span>
+                  <span className="text-[0.68rem] sm:text-xs text-slate-400 font-medium mt-1.5 leading-tight">
+                    Years Exp.
+                  </span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          {/* Right — Orbit system */}
-          <div className="order-1 lg:order-2 flex justify-center items-center">
-            <div
-              className="orbit-wrap relative flex-shrink-0"
-              style={{ width: 420, height: 420 }}
-            >
+          {/* Right Column — Profile Image Fixed Inside Neutral Circular Frame */}
+          <div className="hero-right-img-wrap lg:col-span-5 flex items-center justify-center order-1 lg:order-2">
+            <div className="relative flex items-center justify-center">
+
+              {/* Circular Background & Frame strictly containing the image */}
               <div
-                className="absolute inset-0 flex items-center justify-center"
-                style={{ animation: 'float-gentle 7s ease-in-out infinite' }}
+                className="w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[390px] md:h-[390px] lg:w-[420px] lg:h-[420px] xl:w-[450px] xl:h-[450px] rounded-full overflow-hidden relative flex items-end justify-center flex-shrink-0"
+                style={{
+                  background: 'radial-gradient(circle at 45% 45%, #242424 0%, #141414 65%, #0a0a0a 100%)',
+                  border: '2px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: '0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 0, 0, 0.75)',
+                }}
               >
-                <ProfileOrbit />
+                <img
+                  src={portfolioData.profileImage}
+                  alt={`${portfolioData.name} — ${portfolioData.role}`}
+                  className="w-[88%] sm:w-[90%] md:w-[92%] h-auto object-contain object-bottom select-none pointer-events-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.9)]"
+                  loading="eager"
+                />
               </div>
             </div>
           </div>
 
         </div>
       </div>
-
-      {/* ── Stats bar ── */}
-      <div className="relative z-10 w-full section-container lg:-translate-y-6 mt-6 sm:mt-8 lg:mt-0 pb-6 lg:pb-0">
-        <StatsBar />
-      </div>
-
-      {/* ── Responsive overrides ── */}
-      <style>{`
-        @media (max-width: 1024px) {
-          .orbit-wrap { width: 340px !important; height: 340px !important; }
-          .profile-orbit-root { transform: scale(0.78); }
-        }
-        @media (max-width: 640px) {
-          .orbit-wrap { width: 280px !important; height: 280px !important; }
-          .profile-orbit-root { transform: scale(0.62); }
-        }
-      `}</style>
     </section>
   );
 }

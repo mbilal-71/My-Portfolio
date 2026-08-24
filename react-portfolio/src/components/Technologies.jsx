@@ -68,9 +68,9 @@ export default function Technologies() {
                       color: 'var(--text-secondary)',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(249,202,28,0.32)';
-                      e.currentTarget.style.background  = 'rgba(249,202,28,0.05)';
-                      e.currentTarget.style.color       = 'var(--accent)';
+                      e.currentTarget.style.borderColor = 'var(--accent-border)';
+                      e.currentTarget.style.background  = 'var(--accent-dim)';
+                      e.currentTarget.style.color       = 'var(--accent-bright)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)';
