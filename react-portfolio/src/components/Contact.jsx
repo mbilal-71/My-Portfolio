@@ -85,78 +85,50 @@ export default function Contact() {
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const section = ref.current;
-    if (!section) return;
-
-    // Set initial animation-ready state (CSS will handle opacity/transform)
-    const left = section.querySelector('.cnt-left');
-    const rowEls = section.querySelectorAll('.cnt-row');
-
-    const animate = () => {
-      if (left) {
-        left.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-        left.style.opacity = '1';
-        left.style.transform = 'translateX(0)';
-      }
-      rowEls.forEach((el, i) => {
-        setTimeout(() => {
-          el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-          el.style.opacity = '1';
-          el.style.transform = 'translateX(0)';
-        }, 80 * i);
-      });
-    };
-
-    // Check if already visible
-    const rect = section.getBoundingClientRect();
-    const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
-    let observer = null;
-
-    if (alreadyVisible) {
-      // Already in view — animate immediately without hiding first
-      animate();
-    } else {
-      // Set starting (hidden) state only when not yet in viewport
-      if (left) { left.style.opacity = '0'; left.style.transform = 'translateX(-40px)'; }
-      rowEls.forEach((el) => { el.style.opacity = '0'; el.style.transform = 'translateX(40px)'; });
-
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            animate();
-            observer.unobserve(section);
-          }
-        },
-        { threshold: 0.1 }
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.cnt-left',
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+          clearProps: 'all',
+          scrollTrigger: { trigger: ref.current, start: 'top 90%' },
+        }
       );
-      observer.observe(section);
-    }
-
-    return () => {
-      if (observer) observer.disconnect();
-      // Ensure elements are visible on cleanup
-      if (left) { left.style.opacity = '1'; left.style.transform = ''; }
-      rowEls.forEach((el) => { el.style.opacity = '1'; el.style.transform = ''; });
-    };
-
+      gsap.fromTo(
+        '.cnt-row',
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.06,
+          ease: 'power3.out',
+          clearProps: 'all',
+          scrollTrigger: { trigger: ref.current, start: 'top 90%' },
+        }
+      );
+    }, ref);
+    return () => ctx.revert();
   }, []);
-
-
 
   return (
     <section
       id="contact"
       ref={ref}
-      className="cnt-section py-20 lg:py-28"
+      className="section-spacing"
       style={{ background: 'var(--bg-secondary)' }}
     >
       <div className="section-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
           {/* Left — heading */}
           <div className="cnt-left">
-            <p className="section-label mb-4">Contact</p>
-            <h2 className="section-heading mb-5">
+            <p className="section-label mb-3">Contact</p>
+            <h2 className="section-heading mb-4">
               Let's build<br />
               something <span className="accent">amazing</span>
             </h2>
@@ -167,7 +139,7 @@ export default function Contact() {
           </div>
 
           {/* Right — contact rows */}
-          <div className="cnt-rows flex flex-col gap-3">
+          <div className="cnt-rows flex flex-col gap-3 sm:gap-3.5">
             {rows.map(({ id, label, value, href, external, icon }) => (
               <a
                 key={id}
@@ -179,11 +151,11 @@ export default function Contact() {
               >
                 {/* Icon box */}
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-105"
+                  className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-105"
                   style={{
                     background: 'rgba(249,202,28,0.08)',
                     border: '1px solid rgba(249,202,28,0.18)',
-                    color: 'rgba(249,202,28,0.8)',
+                    color: 'rgba(249,202,28,0.85)',
                   }}
                 >
                   {icon}
@@ -192,7 +164,7 @@ export default function Contact() {
                 {/* Label + value */}
                 <div className="flex-1 min-w-0">
                   <p
-                    className="text-[0.6rem] font-bold uppercase tracking-widest mb-0.5"
+                    className="text-[0.62rem] font-bold uppercase tracking-widest mb-0.5"
                     style={{ color: 'var(--text-muted)' }}
                   >
                     {label}

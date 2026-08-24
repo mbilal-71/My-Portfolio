@@ -12,12 +12,14 @@ export default function Experience() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const ctx = gsap.context(() => {
       gsap.from('.exp-hdr', {
-        opacity: 0, y: 30, duration: 0.7, ease: 'power3.out',
-        scrollTrigger: { trigger: '.exp-hdr', start: 'top 87%' },
+        opacity: 0, y: 24, duration: 0.6, ease: 'power3.out',
+        clearProps: 'transform',
+        scrollTrigger: { trigger: '.exp-hdr', start: 'top 88%' },
       });
       gsap.from('.exp-card', {
-        opacity: 0, x: -30, duration: 0.65, ease: 'power3.out',
-        scrollTrigger: { trigger: '.exp-card', start: 'top 84%' },
+        opacity: 0, x: -20, duration: 0.6, ease: 'power3.out',
+        clearProps: 'transform',
+        scrollTrigger: { trigger: '.exp-card', start: 'top 85%' },
       });
     }, ref);
     return () => ctx.revert();
@@ -27,13 +29,13 @@ export default function Experience() {
     <section
       id="experience"
       ref={ref}
-      className="py-20 lg:py-28"
+      className="section-spacing"
       style={{ background: 'var(--bg-secondary)' }}
     >
       <div className="section-container">
 
         {/* Header */}
-        <div className="exp-hdr mb-14">
+        <div className="exp-hdr mb-12 sm:mb-14">
           <p className="section-label mb-3">Career</p>
           <h2 className="section-heading">
             Where I've <span className="accent">worked</span>
@@ -41,10 +43,10 @@ export default function Experience() {
         </div>
 
         {/* Timeline */}
-        <div className="relative flex flex-col gap-6">
+        <div className="relative flex flex-col gap-6 lg:gap-8">
 
           {experience.map((exp) => (
-            <div key={exp.id} className="flex gap-6 items-start">
+            <div key={exp.id} className="flex gap-4 sm:gap-6 items-start">
 
               {/* Timeline indicator */}
               <div className="flex flex-col items-center flex-shrink-0 mt-1" style={{ width: 28 }}>
@@ -70,26 +72,23 @@ export default function Experience() {
               </div>
 
               {/* Card */}
-              <div
-                className="exp-card card flex-1"
-                style={{ marginBottom: '0.5rem' }}
-              >
+              <div className="exp-card card flex-1 flex flex-col justify-between gap-5">
                 {/* Card header */}
-                <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
+                <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h3
-                      className="text-base font-bold mb-0.5"
+                      className="text-base sm:text-lg font-bold mb-0.5"
                       style={{ fontFamily: 'var(--font-display)' }}
                     >
                       {exp.role}
                     </h3>
-                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                       {exp.company}
                     </p>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <span
-                      className="text-xs font-medium px-3 py-1 rounded-full"
+                      className="text-xs font-semibold px-3 py-1 rounded-full"
                       style={{
                         background: 'rgba(249,202,28,0.08)',
                         border: '1px solid rgba(249,202,28,0.2)',
@@ -102,11 +101,11 @@ export default function Experience() {
                 </div>
 
                 {/* Responsibilities */}
-                <ul className="flex flex-col gap-2.5 mb-5">
+                <ul className="flex flex-col gap-3">
                   {exp.responsibilities.map((r, i) => (
                     <li key={i} className="flex items-start gap-2.5">
                       <span
-                        className="flex-shrink-0 mt-[5px] w-1.5 h-1.5 rounded-full"
+                        className="flex-shrink-0 mt-[7px] w-1.5 h-1.5 rounded-full"
                         style={{ background: 'var(--accent)' }}
                       />
                       <span className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
@@ -117,7 +116,7 @@ export default function Experience() {
                 </ul>
 
                 {/* Type tag */}
-                <div>
+                <div className="pt-2 border-t border-white/[0.04]">
                   <span
                     className="inline-flex px-3 py-1 rounded-full text-[0.62rem] font-bold uppercase tracking-wider"
                     style={{

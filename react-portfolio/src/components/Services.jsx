@@ -48,12 +48,14 @@ export default function Services() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const ctx = gsap.context(() => {
       gsap.from('.svc-hdr', {
-        opacity: 0, y: 30, duration: 0.7, ease: 'power3.out',
-        scrollTrigger: { trigger: '.svc-hdr', start: 'top 87%' },
+        opacity: 0, y: 24, duration: 0.6, ease: 'power3.out',
+        clearProps: 'transform',
+        scrollTrigger: { trigger: '.svc-hdr', start: 'top 88%' },
       });
       gsap.from('.svc-card', {
-        opacity: 0, y: 50, duration: 0.65, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.svc-grid', start: 'top 82%' },
+        opacity: 0, y: 28, duration: 0.55, stagger: 0.08, ease: 'power3.out',
+        clearProps: 'transform',
+        scrollTrigger: { trigger: '.svc-grid', start: 'top 85%' },
       });
     }, ref);
     return () => ctx.revert();
@@ -63,13 +65,13 @@ export default function Services() {
     <section
       id="services"
       ref={ref}
-      className="mt-18 py-28 lg:mt-20 lg:py-28"
+      className="section-spacing"
       style={{ background: 'var(--bg-primary)' }}
     >
       <div className="section-container">
 
         {/* Header */}
-        <div className="svc-hdr mb-14">
+        <div className="svc-hdr mb-12 sm:mb-14">
           <p className="section-label mb-3">Services</p>
           <h2 className="section-heading">
             What I <span className="accent">Deliver</span>
@@ -80,14 +82,14 @@ export default function Services() {
         </div>
 
         {/* 2×2 Grid */}
-        <div className="svc-grid grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="svc-grid grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 items-stretch">
           {services.map((s, i) => {
             const { color, bg, border } = cardColors[i] || cardColors[0];
             const Icon = ServiceIcons[s.icon];
             return (
               <div
                 key={s.id}
-                className="svc-card card relative overflow-hidden group cursor-default flex flex-col gap-5"
+                className="svc-card card relative overflow-hidden group cursor-default flex flex-col justify-between gap-5 h-full"
               >
                 {/* Top accent line — reveals on hover */}
                 <div
@@ -95,41 +97,43 @@ export default function Services() {
                   style={{ background: `linear-gradient(90deg, ${color}, transparent)` }}
                 />
 
-                {/* Number label */}
-                <p
-                  className="text-[0.58rem] font-black uppercase tracking-[0.22em]"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  {s.number}
-                </p>
+                <div className="flex flex-col gap-4">
+                  {/* Top row: Number + Icon */}
+                  <div className="flex items-center justify-between">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-4deg] flex-shrink-0"
+                      style={{ background: bg, border: `1px solid ${border}`, color }}
+                    >
+                      {Icon}
+                    </div>
+                    <span
+                      className="text-[0.68rem] font-bold uppercase tracking-[0.22em]"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      {s.number}
+                    </span>
+                  </div>
 
-                {/* Icon */}
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-4deg] flex-shrink-0"
-                  style={{ background: bg, border: `1px solid ${border}`, color }}
-                >
-                  {Icon}
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col gap-2.5 flex-1">
-                  <h3
-                    className="text-lg font-bold"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    {s.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                    {s.description}
-                  </p>
+                  {/* Content */}
+                  <div className="flex flex-col gap-2">
+                    <h3
+                      className="text-lg sm:text-xl font-bold"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {s.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                      {s.description}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2 pt-2 border-t border-white/[0.04]">
                   {s.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-0.5 rounded-full text-[0.62rem] font-semibold"
+                      className="px-2.5 py-1 rounded-full text-[0.65rem] font-semibold"
                       style={{
                         background: bg,
                         border: `1px solid ${border}`,
@@ -140,14 +144,6 @@ export default function Services() {
                     </span>
                   ))}
                 </div>
-
-                {/* Arrow */}
-                <span
-                  className="text-lg transition-all duration-300 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 mt-1"
-                  style={{ color }}
-                >
-                  →
-                </span>
               </div>
             );
           })}

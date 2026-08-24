@@ -8,11 +8,11 @@ export const portfolioData = {
   name: "Muhammad Bilal",
   initials: "MB",
   role: "Full Stack Developer",
-  badge: "Full Stack Developer · BS Computer Science",
+  badge: "Full Stack Developer",
   university: "University of Management and Technology",
   universityShort: "UMT, Lahore",
   degree: "BS Computer Science",
-  email: "mb16837157@gmail.com",
+  email: "m.bilalferoz1@gmail.com",
   phone: "+92 308 8346800",
   phoneTel: "tel:+923088346800",
   whatsapp: "https://wa.me/923088346800?text=Hi!%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!",
@@ -26,10 +26,10 @@ export const portfolioData = {
   heroDesc:
     "I craft full-stack web applications with clean frontends, solid backends, and AI-powered capabilities — turning ideas into fast, beautiful, production-ready products.",
   stats: [
-    { value: "3+",   label: "Projects Built",   icon: "code" },
-    { value: "5+",   label: "Happy Clients",    icon: "users" },
-    { value: "10+",  label: "Technologies",     icon: "zap" },
-    { value: "100%", label: "Commitment",       icon: "target" },
+    { value: "34+",  label: "Projects Delivered",    icon: "code" },
+    { value: "12+",  label: "Happy Clients",         icon: "users" },
+    { value: "3.5+", label: "Years Experience",      icon: "experience" },
+    { value: "100%", label: "Client Satisfaction",   icon: "satisfaction" },
   ],
 };
 

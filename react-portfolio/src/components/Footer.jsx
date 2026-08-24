@@ -46,14 +46,14 @@ export default function Footer() {
       style={{
         background: 'var(--bg-primary)',
         borderTop: '1px solid var(--border-card)',
-        paddingBottom: '6rem', /* space for floating navbar */
+        paddingBottom: '7.5rem', /* clearance for floating navbar */
       }}
     >
-      <div className="section-container py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div className="section-container pt-16 pb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mb-12">
 
           {/* Brand */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2.5">
             <div className="flex items-center gap-2.5">
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0"
@@ -65,10 +65,10 @@ export default function Footer() {
                 {portfolioData.name}
               </span>
             </div>
-            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>
               {portfolioData.role}
             </p>
-            <p className="text-xs mt-1 max-w-[220px] leading-relaxed" style={{ color: 'var(--text-muted)', opacity: 0.65 }}>
+            <p className="text-xs mt-1 max-w-[260px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
               Building fast, beautiful, production-quality web applications.
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function Footer() {
             <p className="text-[0.62rem] font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>
               Navigation
             </p>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
               {NAV_LINKS.map(({ id, label, target }) => (
                 <button
                   key={id}
@@ -98,7 +98,7 @@ export default function Footer() {
             <p className="text-[0.62rem] font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>
               Connect
             </p>
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-3">
               {SOCIAL_LINKS.map(({ id, label, href, icon }) => (
                 <a
                   key={id}
@@ -121,13 +121,13 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6"
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6"
           style={{ borderTop: '1px solid var(--border-subtle)' }}
         >
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-xs text-center sm:text-left" style={{ color: 'var(--text-muted)' }}>
             &copy; {year} {portfolioData.name}. All rights reserved.
           </p>
-          <p className="text-[0.65rem]" style={{ color: 'var(--text-muted)', opacity: 0.5 }}>
+          <p className="text-xs text-center sm:text-right" style={{ color: 'var(--text-muted)', opacity: 0.7 }}>
             Built with React · Tailwind CSS · GSAP ❤️
           </p>
         </div>
