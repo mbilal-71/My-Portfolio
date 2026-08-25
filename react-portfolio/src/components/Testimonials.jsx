@@ -258,19 +258,11 @@ function TestimonialCard({ testimonial, onDelete, isAdmin }) {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center gap-2.5 pt-3 border-t border-white/[0.06]">
-        <div
-          className="w-8 h-8 rounded-full flex items-center justify-center text-[0.7rem] font-bold flex-shrink-0 uppercase"
-          style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent-border)', color: 'var(--accent-bright)' }}
-        >
-          {testimonial.name ? testimonial.name.charAt(0) : 'U'}
-        </div>
-        <div className="min-w-0">
-          <p className="text-xs font-bold truncate leading-tight">{testimonial.name}</p>
-          <p className="text-[0.6rem] truncate" style={{ color: 'var(--text-muted)' }}>
-            {testimonial.source || (testimonial.role ? `Client · ${testimonial.role}` : 'Client Review')}
-          </p>
-        </div>
+      <div className="pt-3 border-t border-white/[0.06]">
+        <p className="text-xs font-bold truncate leading-tight">{testimonial.name}</p>
+        <p className="text-[0.6rem] truncate mt-0.5" style={{ color: 'var(--text-muted)' }}>
+          {testimonial.source || (testimonial.role ? `Client · ${testimonial.role}` : 'Client Review')}
+        </p>
       </div>
     </div>
   );
