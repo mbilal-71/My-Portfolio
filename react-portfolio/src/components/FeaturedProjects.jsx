@@ -68,14 +68,26 @@ export default function FeaturedProjects() {
               key={p.id}
               className="proj-card group"
             >
-              {/* Image Banner */}
+              {/* Media Banner (Video or Image) */}
               <div className="relative overflow-hidden h-52 sm:h-60 w-full bg-[#121212]">
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
+                {p.video || p.VideoFrame ? (
+                  <video
+                    src={p.video || p.VideoFrame}
+                    poster={p.image}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
                 {/* Overlay on hover */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3"
