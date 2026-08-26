@@ -16,7 +16,7 @@ export const projects = [
     description:
       "Developed a responsive Amazon-style e-commerce UI using HTML and CSS, focusing on layout structure, product grids, navigation bar, and user-friendly design.",
     technologies: ["React", "Tailwind CSS"],
-    github: "https://github.com/mbilal-71/Amazon-Clone",
+    github: "https://amazon-clone-six-ashen-52.vercel.app/",
     live: 'https://amazon-clone-theta-ruby.vercel.app/',
     image: "/amazon.png",
     category: "Frontend",
