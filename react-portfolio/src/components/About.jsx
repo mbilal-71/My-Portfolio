@@ -41,8 +41,8 @@ function LinkIcon() {
 /* ── Core stack groups ──────────────────────────────────── */
 const STACK = [
   { label: 'Frontend', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
-  { label: 'Backend', items: ['Node.js', 'Express.js'] },
-  { label: 'Database', items: ['MongoDB'] },
+  // { label: 'Backend', items: ['Node.js', 'Express.js'] },
+  // { label: 'Database', items: ['MongoDB'] },
   { label: 'AI', items: ['OpenAI', 'Gemini', 'Claude', 'Grok'] },
   { label: 'Design', items: ['Figma', 'UI/UX Designing'] },
 ];

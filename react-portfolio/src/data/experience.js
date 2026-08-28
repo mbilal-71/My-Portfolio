@@ -12,6 +12,6 @@ export const experience = [
       "Optimized frontend performance and ensured cross-browser compatibility",
       "Integrated REST APIs and handled data flow between frontend and backend systems",
     ],
-    technologies: ["React.js", "JavaScript", "HTML", "CSS", "Tailwind CSS"],
+    technologies: ["React.js", "JavaScript", "Tailwind CSS"],
   },
 ];

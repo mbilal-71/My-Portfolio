@@ -21,14 +21,19 @@ const ServiceIcons = {
   ),
   design: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="13.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="10.5" r="2.5" />
-      <circle cx="8.5" cy="7.5" r="2.5" /><circle cx="6.5" cy="12.5" r="2.5" />
-      <path d="M12 20v-8.5" />
+      <path d="M12 2a10 10 0 0 0-10 10c0 5.523 4.477 10 10 10a1.5 1.5 0 0 0 1.5-1.5c0-.4-.15-.77-.42-1.04-.26-.27-.43-.64-.43-1.05 0-.83.67-1.5 1.5-1.5h1.92c3.55 0 6.43-2.88 6.43-6.43C22 6.48 17.52 2 12 2z" />
+      <circle cx="7.5" cy="10.5" r="1.5" fill="currentColor" />
+      <circle cx="12" cy="7.5" r="1.5" fill="currentColor" />
+      <circle cx="16.5" cy="10.5" r="1.5" fill="currentColor" />
     </svg>
   ),
   ai: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3" /><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+      <path d="M5 3v4" />
+      <path d="M19 17v4" />
+      <path d="M3 5h4" />
+      <path d="M17 19h4" />
     </svg>
   ),
 };

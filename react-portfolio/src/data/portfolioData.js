@@ -6,8 +6,8 @@
 
 export const portfolioData = {
   name: "Muhammad Bilal",
-  role: "Full Stack Developer",
-  badge: "Full Stack Developer",
+  role: "Frontend Developer",
+  badge: "Frontend Developer",
   university: "University of Management and Technology",
   universityShort: "UMT, Lahore",
   degree: "BS Computer Science",

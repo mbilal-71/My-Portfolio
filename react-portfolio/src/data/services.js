@@ -8,15 +8,15 @@ export const services = [
       "I craft responsive, pixel-perfect interfaces using React, Tailwind CSS, and modern UI patterns. From smooth animations to optimized performance — every detail matters.",
     tags: ["React", "Tailwind CSS", "JavaScript", "GSAP", "Responsive"],
   },
-  {
-    id: 2,
-    number: "02",
-    icon: "backend",
-    title: "Backend Developer",
-    description:
-      "Scalable server-side architectures with Node.js and Express.js. REST APIs, authentication systems, MongoDB integrations, and business logic built to last.",
-    tags: ["Node.js", "Express.js", "MongoDB", "REST APIs", "Auth"],
-  },
+  // {
+  //   id: 2,
+  //   number: "02",
+  //   icon: "backend",
+  //   title: "Backend Developer",
+  //   description:
+  //     "Scalable server-side architectures with Node.js and Express.js. REST APIs, authentication systems, MongoDB integrations, and business logic built to last.",
+  //   tags: ["Node.js", "Express.js", "MongoDB", "REST APIs", "Auth"],
+  // },
   {
     id: 3,
     number: "03",
