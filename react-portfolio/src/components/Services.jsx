@@ -39,11 +39,17 @@ const ServiceIcons = {
 };
 
 /* ── Card accent colors per service ───────────────────── */
+const serviceColors = {
+  frontend: { color: '#3cdefb', bg: 'rgba(60,222,251,0.08)', border: 'rgba(60,222,251,0.22)' },
+  backend: { color: '#60A5FA', bg: 'rgba(96,165,250,0.08)', border: 'rgba(96,165,250,0.2)' },
+  design: { color: '#34D399', bg: 'rgba(52,211,153,0.08)', border: 'rgba(52,211,153,0.22)' },
+  ai: { color: '#20B2AA', bg: 'rgba(32,178,170,0.08)', border: 'rgba(32,178,170,0.22)' },
+};
 const cardColors = [
-  { color: '#3cdefb', bg: 'rgba(60,222,251,0.08)', border: 'rgba(60,222,251,0.22)' },
-  { color: '#60A5FA', bg: 'rgba(96,165,250,0.08)', border: 'rgba(96,165,250,0.2)' },
-  { color: '#F472B6', bg: 'rgba(244,114,182,0.08)', border: 'rgba(244,114,182,0.2)' },
-  { color: '#34D399', bg: 'rgba(52,211,153,0.08)', border: 'rgba(52,211,153,0.2)' },
+  serviceColors.frontend,
+  serviceColors.design,
+  serviceColors.ai,
+  // serviceColors.backend,
 ];
 
 export default function Services() {
@@ -89,7 +95,7 @@ export default function Services() {
         {/* 2×2 Grid */}
         <div className="svc-grid grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 items-stretch">
           {services.map((s, i) => {
-            const { color, bg, border } = cardColors[i] || cardColors[0];
+            const { color, bg, border } = serviceColors[s.icon] || cardColors[i] || cardColors[0];
             const Icon = ServiceIcons[s.icon];
             return (
               <div
@@ -103,20 +109,12 @@ export default function Services() {
                 />
 
                 <div className="flex flex-col gap-4">
-                  {/* Top row: Number + Icon */}
-                  <div className="flex items-center justify-between">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-4deg] flex-shrink-0"
-                      style={{ background: bg, border: `1px solid ${border}`, color }}
-                    >
-                      {Icon}
-                    </div>
-                    <span
-                      className="text-[0.68rem] font-bold uppercase tracking-[0.22em]"
-                      style={{ color: 'var(--text-muted)' }}
-                    >
-                      {s.number}
-                    </span>
+                  {/* Icon */}
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-4deg] flex-shrink-0"
+                    style={{ background: bg, border: `1px solid ${border}`, color }}
+                  >
+                    {Icon}
                   </div>
 
                   {/* Content */}
