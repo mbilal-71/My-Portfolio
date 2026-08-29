@@ -87,7 +87,6 @@ export const projects = [
     image: "/ui.png",
     category: "Frontend",
   },
-
   {
     id: 9,
     title: "JavaScrip Game",
