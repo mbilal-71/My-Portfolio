@@ -25,7 +25,7 @@ export const portfolioData = {
     "I craft full-stack web applications with clean frontends, solid backends, and AI-powered capabilities — turning ideas into fast, beautiful, production-ready products.",
   stats: [
     { value: "10+",  label: "Projects Built",    icon: "code" },
-    { value: "5+",  label: "Happy Clients",         icon: "users" },
+    { value: "6+",  label: "Happy Clients",         icon: "users" },
     { value: "1.5+", label: "Years Experience",      icon: "experience" },
     { value: "100%", label: "Client Satisfaction",   icon: "satisfaction" },
   ],
