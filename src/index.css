@@ -604,6 +604,10 @@
   .mobile-hamburger {
     display: flex;
   }
+  /* Hide the top Hire Me button on mobile — sidebar hamburger takes its place */
+  #hero-top-hire-me {
+    display: none !important;
+  }
   /* Hide the desktop floating pill on mobile */
   .navbar-pill {
     display: none !important;

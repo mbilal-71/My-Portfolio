@@ -155,7 +155,7 @@ export default function Hero() {
             ))}
           </nav>
 
-          {/* Hire Me CTA on Right */}
+          {/* Hire Me CTA on Right — hidden on mobile via CSS */}
           <button
             onClick={() => scrollTo('contact')}
             id="hero-top-hire-me"
@@ -245,7 +245,7 @@ export default function Hero() {
                       color: 'var(--accent)',
                     }}
                   >
-                    3+
+                    6+
                   </span>
                   <span className="text-[0.68rem] sm:text-xs text-slate-400 font-medium mt-1.5 leading-tight">
                     Happy Clients
