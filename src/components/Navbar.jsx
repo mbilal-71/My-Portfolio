@@ -100,6 +100,13 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [sidebarOpen]);
 
+  // Listen for open-sidebar event from Hero hamburger button
+  useEffect(() => {
+    const handler = () => setSidebarOpen(true);
+    window.addEventListener('open-sidebar', handler);
+    return () => window.removeEventListener('open-sidebar', handler);
+  }, []);
+
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setActive(id);
@@ -123,18 +130,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ===== Mobile hamburger button — visible only below 768px ===== */}
-      <button
-        className="mobile-hamburger"
-        onClick={openSidebar}
-        aria-label="Open navigation menu"
-        style={{ display: sidebarOpen ? 'none' : undefined }}
-      >
-        <span className="hamburger-line" />
-        <span className="hamburger-line" />
-        <span className="hamburger-line" />
-      </button>
-
       {/* ===== Mobile sidebar overlay + drawer ===== */}
       <div
         className={`sidebar-overlay ${sidebarOpen ? 'sidebar-overlay--open' : ''}`}

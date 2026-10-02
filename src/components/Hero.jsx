@@ -138,8 +138,16 @@ export default function Hero() {
 
         {/* ── Top Navbar (Inside Hero Card) ── */}
         <header className="hero-top-nav relative z-20 flex items-center justify-between gap-4 pb-6 sm:pb-8 lg:pb-10 border-b border-white/[0.05] mb-6 sm:mb-8 lg:mb-12">
-          {/* Logo on Left */}
-
+          {/* Mobile hamburger — visible only below 768px, inside the card */}
+          <button
+            className="mobile-hamburger"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-sidebar'))}
+            aria-label="Open navigation menu"
+          >
+            <span className="hamburger-line" />
+            <span className="hamburger-line" />
+            <span className="hamburger-line" />
+          </button>
 
           {/* Nav Links in Center (Desktop) */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-xs sm:text-sm font-medium">
