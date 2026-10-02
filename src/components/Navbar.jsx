@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { gsap } from 'gsap';
 
 // Nav items with SVG icon paths
@@ -61,7 +61,9 @@ const navItems = [
 export default function Navbar() {
   const [active, setActive] = useState('home');
   const [scrolled, setScrolled] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const pillRef = useRef(null);
+  const sidebarRef = useRef(null);
 
   // Scroll listener to hide navbar when at top/hero
   useEffect(() => {
@@ -88,14 +90,98 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  // Lock body scroll when sidebar is open
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [sidebarOpen]);
+
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setActive(id);
   };
 
+  const openSidebar = useCallback(() => setSidebarOpen(true), []);
+  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
+
+  const handleSidebarNav = (id) => {
+    closeSidebar();
+    // Small delay so the sidebar starts closing before scroll begins
+    setTimeout(() => scrollTo(id), 250);
+  };
+
+  // Close sidebar on overlay click
+  const handleOverlayClick = (e) => {
+    if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+      closeSidebar();
+    }
+  };
+
   return (
     <>
-      {/* Bottom floating pill navbar — hidden on hero/top, visible on scroll */}
+      {/* ===== Mobile hamburger button — visible only below 768px ===== */}
+      <button
+        className="mobile-hamburger"
+        onClick={openSidebar}
+        aria-label="Open navigation menu"
+        style={{ display: sidebarOpen ? 'none' : undefined }}
+      >
+        <span className="hamburger-line" />
+        <span className="hamburger-line" />
+        <span className="hamburger-line" />
+      </button>
+
+      {/* ===== Mobile sidebar overlay + drawer ===== */}
+      <div
+        className={`sidebar-overlay ${sidebarOpen ? 'sidebar-overlay--open' : ''}`}
+        onClick={handleOverlayClick}
+        aria-hidden={!sidebarOpen}
+      >
+        <aside
+          ref={sidebarRef}
+          className={`sidebar-drawer ${sidebarOpen ? 'sidebar-drawer--open' : ''}`}
+          role="dialog"
+          aria-label="Mobile navigation"
+        >
+          {/* Close button */}
+          <button
+            className="sidebar-close"
+            onClick={closeSidebar}
+            aria-label="Close navigation menu"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          {/* Sidebar nav links */}
+          <nav className="sidebar-nav" aria-label="Mobile navigation links">
+            {navItems.map(({ id, label, icon }) => {
+              const isActive = active === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => handleSidebarNav(id)}
+                  className={`sidebar-link ${isActive ? 'sidebar-link--active' : ''}`}
+                >
+                  <span className="sidebar-link-icon">{icon}</span>
+                  <span className="sidebar-link-label">{label}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Decorative accent line */}
+          <div className="sidebar-accent-line" />
+        </aside>
+      </div>
+
+      {/* ===== Desktop bottom floating pill navbar — unchanged ===== */}
       <nav
         ref={pillRef}
         className={`navbar-pill transition-all duration-500 ${
